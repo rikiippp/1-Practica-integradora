@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 //LOGIC
 import ProductManager from './dao/ProductManager.js';
 import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/carts.router.js';
 
 const app = express();
 const PORT = 8080;
@@ -14,6 +15,7 @@ app.use(express.json())
 
 //ROUTER ENDOPOINTS
 app.use('/', productsRouter)
+app.use('/', cartsRouter)
 
 //ENDPOINTS
 app.listen(PORT, () => {

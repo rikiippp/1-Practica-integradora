@@ -1,26 +1,10 @@
-import fs from 'fs/promises';
+import cartModel from './models/carts.models.js';
 
 class CartManager {
-    constructor(filePath) {
-        this.path = filePath;
-    }
-
     async createCart() {
         try {
-            const cartsData = await fs.readFile(this.path, 'utf-8');
-            const carts = JSON.parse(cartsData);
-
-            const generateCartID = Date.now().toString(30);
-
-            const newCart = {
-                id: generateCartID,
-                products: []
-            };
-
-            carts.push(newCart);
-
-            await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
-
+            const newCart = new cartModel({ products: [] });
+            await newCart.save();
             return newCart;
         } catch (error) {
             throw error;
@@ -29,15 +13,10 @@ class CartManager {
 
     async getCart(cartId) {
         try {
-            const cartsData = await fs.readFile(this.path, 'utf-8');
-            const carts = JSON.parse(cartsData);
-
-            const cart = carts.find(c => c.id === cartId);
-
+            const cart = await cartModel.findById(cartId, { 'products._id': 0 });
             if (!cart) {
-                throw new Error('Carrito no encontrado');
+                throw new Error('Cart not found.');
             }
-
             return cart.products;
         } catch (error) {
             throw error;
@@ -46,28 +25,20 @@ class CartManager {
 
     async addProductToCart(cartId, productId) {
         try {
-            const cartsData = await fs.readFile(this.path, 'utf-8');
-            const carts = JSON.parse(cartsData);
-
-            const cart = carts.find(c => c.id === cartId);
-
+            const cart = await cartModel.findById(cartId);
             if (!cart) {
-                throw new Error('Carrito no encontrado');
+                throw new Error('Cart not found.');
             }
 
-            const existingProduct = cart.products.find(p => p.productId === productId);
+            const existingProductIndex = cart.products.findIndex(p => p.productId.toString() === productId.toString());
 
-            if (existingProduct) {
-                existingProduct.quantity += 1;
+            if (existingProductIndex !== -1) {
+                cart.products[existingProductIndex].quantity += 1;
             } else {
-                cart.products.push({
-                    productId: productId,
-                    quantity: 1
-                });
+                cart.products.push({ productId, quantity: 1 });
             }
 
-            await fs.writeFile(this.path, JSON.stringify(carts, null, 2));
-
+            await cart.save();
             return cart;
         } catch (error) {
             throw error;
