@@ -1,6 +1,6 @@
 # Proyecto E-commerce
 
-Este es un proyecto ecommerce desarrollado mi **Ricardo Piñero**. El proyecto está construido utilizando tecnologías como Mongoose, MongoDB Atlas y Express.
+Este es un proyecto e-commerce desarrollado por **Ricardo Piñero**. El proyecto está construido utilizando tecnologías como Mongoose, MongoDB Atlas y Express.
 
 ## Descripción
 
