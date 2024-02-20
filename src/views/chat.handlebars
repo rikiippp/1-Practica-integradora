@@ -1,10 +1,18 @@
 <div class="chat-container">
-    <h1>Chat</h1>
+
+    <img src="/uploads/2024-02-20T18-30-50.215Z-background.png" alt="Fondo chat">
+    <nav>
+        <h1>Chat</h1>
+        <img src="/uploads/2024-02-20T18-30-50.220Z-cam-recorder.png" alt="Icon camera">
+        <img src="/uploads/2024-02-20T18-30-50.215Z-phone-solid.png" alt="Icon phone">
+        <img src="/uploads/2024-02-20T18-30-50.221Z-more.png" alt="Icon more">
+    </nav>
     <div class="messages">
+
         {{#each messages}}
         <ul>
             <li>User: {{user}}</li>
-            <li>mensaje: {{message}}</li>
+            <li class="li-mensaje">msj{{message}}</li>
         </ul>
         {{/each}}
     </div>
@@ -15,6 +23,7 @@
             <label for="message">Message:</label>
             <textarea id="message" name="message" required></textarea>
             <button type="submit">Send</button>
+
         </form>
 
     </div>
