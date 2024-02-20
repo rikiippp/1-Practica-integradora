@@ -1,21 +1,33 @@
 import express from 'express';
+import handlebars from 'express-handlebars';
+import path from 'path';
+import __dirname from './utils.js';
 import mongoose from 'mongoose';
 
+
 //LOGIC
-import ProductManager from './dao/ProductManager.js';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
+import chatRouter from './routes/chat.router.js';
+import uploadRouter from './routes/upload.router.js';
 
 const app = express();
 const PORT = 8080;
-const productManager = new ProductManager();
 
 //MIDDLEWARES
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
+app.use('/', express.static(path.join(__dirname, '/public')));
+
+//HANDLEBARS
+app.engine('handlebars', handlebars.engine());
+app.set('view engine', 'handlebars');
 
 //ROUTER ENDOPOINTS
 app.use('/', productsRouter)
 app.use('/', cartsRouter)
+app.use('/', chatRouter)
+app.use('/', uploadRouter)
 
 //ENDPOINTS
 app.listen(PORT, () => {
