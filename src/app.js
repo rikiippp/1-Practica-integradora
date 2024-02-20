@@ -22,6 +22,7 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 //HANDLEBARS
 app.engine('handlebars', handlebars.engine());
 app.set('view engine', 'handlebars');
+app.set('views', path.join(__dirname, 'views'));
 
 //ROUTER ENDOPOINTS
 app.use('/', productsRouter)

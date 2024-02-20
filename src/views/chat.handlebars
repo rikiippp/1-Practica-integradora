@@ -8,11 +8,10 @@
         <img src="/uploads/2024-02-20T18-30-50.221Z-more.png" alt="Icon more">
     </nav>
     <div class="messages">
-
         {{#each messages}}
         <ul>
             <li>User: {{user}}</li>
-            <li class="li-mensaje">msj{{message}}</li>
+            <li class="li-mensaje">msj:{{message}}</li>
         </ul>
         {{/each}}
     </div>
@@ -25,7 +24,6 @@
             <button type="submit">Send</button>
 
         </form>
-
     </div>
 
 </div>

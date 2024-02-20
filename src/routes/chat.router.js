@@ -10,7 +10,6 @@ router.get('/api/chat', async (req, res) => {
     } catch (error) {
         res.status(500).send('Error fetching messages');
     }
-    
 });
 
 router.post('/api/chat', async (req, res) => {
