@@ -7,6 +7,7 @@ router.get('/api/chat', async (req, res) => {
     try {
         const messages = await Message.find();
         res.render('chat', { messages });
+        console.log(messages)
     } catch (error) {
         res.status(500).send('Error fetching messages');
     }

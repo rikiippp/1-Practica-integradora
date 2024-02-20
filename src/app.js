@@ -4,7 +4,6 @@ import path from 'path';
 import __dirname from './utils.js';
 import mongoose from 'mongoose';
 
-
 //LOGIC
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/carts.router.js';
