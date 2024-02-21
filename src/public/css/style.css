@@ -64,17 +64,23 @@ nav img {
 }
 
 .messages ul li {
+    display: block;
     color: #fff;
     margin-bottom: 5px;
-    font-size: 16px;
-    font-weight: 400;
+}
+
+.messages ul li:first-child {
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .li-mensaje {
-    margin-left: 25px;
-    background-color: rgba(84, 175, 125, 0.336);
+    margin-left: 10px;
+    background-color: rgba(66, 138, 98, 0.712);
     border-radius: 10px;
     padding: 5px;
+    font-weight: 400;
+    font-size: 16px;
 }
 
 .form-container {
@@ -90,7 +96,7 @@ label {
     margin-bottom: 5px;
     color: #fff;
     font-size: 18px;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 input[type="text"],
@@ -98,7 +104,6 @@ textarea {
     padding: 5px;
     margin-bottom: 10px;
 }
-
 
 button {
     padding: 10px 10px;

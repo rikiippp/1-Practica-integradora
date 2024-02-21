@@ -6,10 +6,7 @@ const router = Router()
 router.get('/api/chat', async (req, res) => {
     try {
         const messages = await Message.find();
-        res.render('chat', { messages });
-        // console.log(messages)
-        // DESCOMENTA ESTE CONSOLE.LOG PARA VER QUE SI LLEGAN LOS MENSAJES CORRECTAMENTE,
-        // PERO NO SE EL MOTIVO DEL PORQUE NO SE MUESTRAN EN LA VISTA DEL CHAT.
+        res.render('chat', { messages: messages.map(msg => msg.toObject()) });
     } catch (error) {
         res.status(500).send('Error fetching messages');
     }
