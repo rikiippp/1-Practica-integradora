@@ -35,8 +35,6 @@ router.get('/api/products', async (req, res) => {
         if (page > totalPages) {
             return res.status(404).send('Page not found');
         }
-        console.log("Total Pages:", totalPages);
-        console.log("Current Page:", page);
 
         // Generar enlaces de paginación solo si hay páginas anteriores o siguientes disponibles
         const prevLink = page > 1 ? `/api/products?limit=${limit}&page=${parseInt(page) - 1}` : null;
@@ -44,6 +42,8 @@ router.get('/api/products', async (req, res) => {
 
 
         res.render('products', {
+            // favIcon: '/uploads/2024-02-20T18-30-50.215Z-phone-solid.png',
+            titlePage: 'Home | Products',
             payload: products.map(p => p.toObject()),
             totalPages,
             prevLink,

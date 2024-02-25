@@ -22,7 +22,7 @@ router.get('/api/carts/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid;
         const cartProducts = await cartManager.getCart(cartId);
-        res.send({ cart: cartProducts});
+        res.send({ cart: cartProducts });
     } catch (error) {
         res.status(500).json({ result: 'Cart not found.', error: error.message });
     }

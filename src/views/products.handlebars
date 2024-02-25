@@ -7,12 +7,13 @@
         <p>Precio: {{price}}</p>
         <p>Stock: {{stock}}</p>
         <p>Categoría: {{category}}</p>
-        <form action="/api/carts/{{../cid}}/products/{{_id}}" method="POST">
+        <form action="/api/carts/{{cid}}/products/{{_id}}" method="POST">
             <input type="hidden" name="quantity" value="1">
             <button type="submit">Agregar al Carrito</button>
         </form>
     </div>
     {{/each}}
+
 </div>
 <div id="pagination-container" class="pagination">
     {{#if prevLink}}
