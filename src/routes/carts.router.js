@@ -1,5 +1,6 @@
 import Router from "express";
 import CartManager from "../dao/CartManager.js";
+import cartModel from "../dao/models/carts.model.js";
 
 const cartManager = new CartManager();
 
@@ -27,14 +28,15 @@ router.get('/api/carts/:cid', async (req, res) => {
     }
 });
 
-router.post('/api/carts/:cid/product/:pid', async (req, res) => {
+// Agrego un producto a un cart especifico
+router.post('/api/carts/:cid/products/:pid', async (req, res) => {
     try {
-        const cartId = req.params.cid;
-        const productId = req.params.pid;
+        const { cid, pid } = req.params;
+        const { quantity } = req.body; // Asegugarse de la cantidad
 
-        const updatedCart = await cartManager.addProductToCart(cartId, productId);
+        const updatedCart = await cartManager.addProductToCart(cid, pid, quantity);
 
-        res.send({ result: 'Success', payload: updatedCart} )
+        res.send({ result: 'Success', payload: updatedCart });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server error.' });

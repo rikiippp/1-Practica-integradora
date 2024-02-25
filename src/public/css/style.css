@@ -1,12 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+
+colors {
+    --tea-green: #ccd5aeff;
+    --beige: #e9edc9ff;
+    --cornsilk: #fefae0ff;
+    --papaya-whip: #faedcdff;
+    --buff: #d4a373ff;
+}
+
 body {
     font-family: "Roboto", sans-serif;
     font-weight: 100;
     font-style: normal;
     margin: 0;
     padding: 0;
-    background-color: rgba(93, 92, 97, 0.719);
+    /* background-color: rgba(93, 92, 97, 0.719); */
+    background-color: #e9edc9ff;
 }
 
 .chat-container {
@@ -107,7 +117,7 @@ textarea {
 
 button {
     padding: 10px 10px;
-    background-color: #007bff;
+    background-color: #ccd5aeff;
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -117,4 +127,77 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+/* ESTILOS PARA LA PAGE PRODUCTS */
+h1 {
+    text-align: center;
+    color: #ccd5aeff;
+    margin-top: 20px;
+}
+
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-card {
+    background-color: #fefae0ff;
+    border: 1px solid #faedcdff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 16rem;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+.product-card h2 {
+    margin-top: 0;
+    color: #ccd5aeff;
+}
+
+.product-card p {
+    margin: 10px 0;
+}
+
+.product-card form {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Ajustes en el CSS para la paginación */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0;
+    background-color: #e9edc9ff;
+    border-top: 1px solid #faedcdff;
+}
+
+.pagination a {
+    color: #ccd5aeff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccd5aeff;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination a:hover {
+    background-color: #ccd5aeff;
+    color: #e9edc9ff;
+}
+
+.pagination span {
+    color: #d4a373ff;
 }

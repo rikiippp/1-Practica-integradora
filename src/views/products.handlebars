@@ -1,0 +1,25 @@
+<h1>Lista de Productos</h1>
+<div id="products-container" class="products-container">
+    {{#each payload}}
+    <div class="product-card">
+        <h2>{{title}}</h2>
+        <p>{{description}}</p>
+        <p>Precio: {{price}}</p>
+        <p>Stock: {{stock}}</p>
+        <p>Categoría: {{category}}</p>
+        <form action="/api/carts/{{../cid}}/products/{{_id}}" method="POST">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit">Agregar al Carrito</button>
+        </form>
+    </div>
+    {{/each}}
+</div>
+<div id="pagination-container" class="pagination">
+    {{#if prevLink}}
+    <a href="{{prevLink}}">Anterior</a>
+    {{/if}}
+    <span>Página {{page}} de {{totalPages}}</span>
+    {{#if nextLink}}
+    <a href="{{nextLink}}">Siguiente</a>
+    {{/if}}
+</div>

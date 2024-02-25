@@ -23,7 +23,7 @@ class CartManager {
         }
     };
 
-    async addProductToCart(cartId, productId) {
+    async addProductToCart(cartId, productId, quantity) {
         try {
             const cart = await cartModel.findById(cartId);
             if (!cart) {
@@ -33,9 +33,11 @@ class CartManager {
             const existingProductIndex = cart.products.findIndex(p => p.productId.toString() === productId.toString());
 
             if (existingProductIndex !== -1) {
-                cart.products[existingProductIndex].quantity += 1;
+                // Si el producto ya existe en el carrito, actualiza su cantidad
+                cart.products[existingProductIndex].quantity += quantity;
             } else {
-                cart.products.push({ productId, quantity: 1 });
+                // Si el producto no existe en el carrito, lo agrega con la cantidad especificada
+                cart.products.push({ productId, quantity });
             }
 
             await cart.save();
@@ -43,7 +45,7 @@ class CartManager {
         } catch (error) {
             throw error;
         }
-    };
+    }
 };
 
 export default CartManager;

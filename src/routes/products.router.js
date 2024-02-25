@@ -1,5 +1,6 @@
 import Router from 'express';
 import ProductManager from '../dao/ProductManager.js';
+import productsModel from '../dao/models/products.model.js';
 
 const productManager = new ProductManager()
 
@@ -30,20 +31,30 @@ router.get('/api/products', async (req, res) => {
         const totalProducts = await productsModel.countDocuments(queryParams);
         const totalPages = Math.ceil(totalProducts / limit);
 
-        res.send({
-            status: 'success',
-            payload: products,
+        // Asegurarse de que la página actual no exceda el número total de páginas
+        if (page > totalPages) {
+            return res.status(404).send('Page not found');
+        }
+        console.log("Total Pages:", totalPages);
+        console.log("Current Page:", page);
+
+        // Generar enlaces de paginación solo si hay páginas anteriores o siguientes disponibles
+        const prevLink = page > 1 ? `/api/products?limit=${limit}&page=${parseInt(page) - 1}` : null;
+        const nextLink = page < totalPages ? `/api/products?limit=${limit}&page=${parseInt(page) + 1}` : null;
+
+
+        res.render('products', {
+            payload: products.map(p => p.toObject()),
             totalPages,
-            prevPage: page > 1 ? page - 1 : null,
-            nextPage: page < totalPages ? page + 1 : null,
+            prevLink,
+            nextLink,
             page,
             hasPrevPage: page > 1,
-            hasNextPage: page < totalPages,
-            prevLink: page > 1 ? `/api/products?limit=${limit}&page=${page - 1}` : null,
-            nextLink: page < totalPages ? `/api/products?limit=${limit}&page=${page + 1}` : null
+            hasNextPage: page < totalPages
         });
     } catch (error) {
-        res.status(500).json({ result: 'Error when obtaining the products', error });
+        console.error(error);
+        res.status(500).send('Error fetching products');
     }
 });
 
@@ -58,7 +69,7 @@ router.get('/api/products/:pid', async (req, res) => {
     } catch (error) {
         res.status(500).json({ result: error.message });
     }
-})
+});
 
 // Creo un nuevo producto
 router.post('/api/products', async (req, res) => {
