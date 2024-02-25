@@ -8,12 +8,44 @@ const router = Router();
 // Obtengo todos los productos
 router.get('/api/products', async (req, res) => {
     try {
-        const products = await productManager.getProducts()
-        res.send({ result: 'Success', payload: products });
+        const { limit = 10, page = 1, sort, query } = req.query;
+        const skip = (page - 1) * limit;
+        let queryParams = {};
+
+        if (query) {
+            queryParams = {
+                $or: [
+                    { title: { $regex: query, $options: 'i' } },
+                    { description: { $regex: query, $options: 'i' } },
+                    { category: { $regex: query, $options: 'i' } }
+                ]
+            };
+        }
+
+        const products = await productsModel.find(queryParams)
+            .skip(skip)
+            .limit(parseInt(limit))
+            .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : {});
+
+        const totalProducts = await productsModel.countDocuments(queryParams);
+        const totalPages = Math.ceil(totalProducts / limit);
+
+        res.send({
+            status: 'success',
+            payload: products,
+            totalPages,
+            prevPage: page > 1 ? page - 1 : null,
+            nextPage: page < totalPages ? page + 1 : null,
+            page,
+            hasPrevPage: page > 1,
+            hasNextPage: page < totalPages,
+            prevLink: page > 1 ? `/api/products?limit=${limit}&page=${page - 1}` : null,
+            nextLink: page < totalPages ? `/api/products?limit=${limit}&page=${page + 1}` : null
+        });
     } catch (error) {
-        res.status(500).json({ result: 'Error when obtaining the products', error })
+        res.status(500).json({ result: 'Error when obtaining the products', error });
     }
-})
+});
 
 // Obtengo productos por id
 router.get('/api/products/:pid', async (req, res) => {

@@ -9,11 +9,11 @@ class CartManager {
         } catch (error) {
             throw error;
         }
-    }
+    };
 
     async getCart(cartId) {
         try {
-            const cart = await cartModel.findById(cartId, { 'products._id': 0 });
+            const cart = await cartModel.findById(cartId).populate('products.productId');
             if (!cart) {
                 throw new Error('Cart not found.');
             }
@@ -21,7 +21,7 @@ class CartManager {
         } catch (error) {
             throw error;
         }
-    }
+    };
 
     async addProductToCart(cartId, productId) {
         try {
@@ -43,7 +43,7 @@ class CartManager {
         } catch (error) {
             throw error;
         }
-    }
-}
+    };
+};
 
 export default CartManager;
