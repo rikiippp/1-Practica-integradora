@@ -97,27 +97,27 @@ nav img {
     padding: 10px;
 }
 
-form {
+.form-container form {
     display: flex;
     flex-direction: column;
 }
 
-label {
+.form-container label {
     margin-bottom: 5px;
     color: #fff;
     font-size: 18px;
     font-weight: 400;
 }
 
-input[type="text"],
+.form-container input[type="text"],
 textarea {
     padding: 5px;
     margin-bottom: 10px;
 }
 
-button {
-    padding: 10px 10px;
-    background-color: #ccd5aeff;
+.form-container button {
+    padding: 15px 10px;
+    background-color: rgb(91, 218, 87);
     color: #fff;
     border: none;
     border-radius: 10px;
@@ -125,7 +125,7 @@ button {
     font-size: 18px;
 }
 
-button:hover {
+.form-container button:hover {
     background-color: #0056b3;
 }
 
@@ -137,11 +137,15 @@ h1 {
 }
 
 .products-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    justify-items: center;
     gap: 20px;
     padding: 20px;
+    max-width: 65rem;
+    /* Ajustar el ancho máximo para mantener el diseño */
+    margin: 0 auto;
 }
 
 .product-card {
@@ -149,13 +153,15 @@ h1 {
     border: 1px solid #faedcdff;
     border-radius: 10px;
     padding: 20px;
-    width: 16rem;
+    width: auto;
+    max-width: 14rem;
+    min-height: 300px;
     box-sizing: border-box;
     transition: transform 0.3s ease;
 }
 
 .product-card:hover {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .product-card h2 {

@@ -5,8 +5,8 @@ const router = Router()
 
 router.get('/api/chat', async (req, res) => {
     try {
-        const messages = await Message.find();
-        res.render('chat', { favIcon: '/uploads/1708456649794-message.png', titlePage: 'Home | Chat', messages: messages.map(msg => msg.toObject()) });
+        const messages = await Message.find().lean(); // La funcion lean() es para remplazar el .map
+        res.render('chat', { favIcon: '/uploads/1708456649794-message.png', titlePage: 'Home | Chat', messages: messages });
     } catch (error) {
         res.status(500).send('Error fetching messages');
     }

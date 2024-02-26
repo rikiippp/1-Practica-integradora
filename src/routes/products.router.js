@@ -26,7 +26,8 @@ router.get('/api/products', async (req, res) => {
         const products = await productsModel.find(queryParams)
             .skip(skip)
             .limit(parseInt(limit))
-            .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : {});
+            .sort(sort ? { price: sort === 'asc' ? 1 : -1 } : {})
+            .lean();
 
         const totalProducts = await productsModel.countDocuments(queryParams);
         const totalPages = Math.ceil(totalProducts / limit);
@@ -40,11 +41,9 @@ router.get('/api/products', async (req, res) => {
         const prevLink = page > 1 ? `/api/products?limit=${limit}&page=${parseInt(page) - 1}` : null;
         const nextLink = page < totalPages ? `/api/products?limit=${limit}&page=${parseInt(page) + 1}` : null;
 
-
         res.render('products', {
-            // favIcon: '/uploads/2024-02-20T18-30-50.215Z-phone-solid.png',
             titlePage: 'Home | Products',
-            payload: products.map(p => p.toObject()),
+            payload: products,
             totalPages,
             prevLink,
             nextLink,
@@ -57,6 +56,7 @@ router.get('/api/products', async (req, res) => {
         res.status(500).send('Error fetching products');
     }
 });
+
 
 // Obtengo productos por id
 router.get('/api/products/:pid', async (req, res) => {
