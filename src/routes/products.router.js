@@ -74,15 +74,15 @@ router.get('/api/products/:pid', async (req, res) => {
 // Creo un nuevo producto
 router.post('/api/products', async (req, res) => {
     try {
-        const { title, description, price, stock, category } = req.body;
+        const { title, description, image, price, stock, category } = req.body;
 
         // Verifico los campos ingresados
-        if (!title || !description || !category || typeof price !== 'number' || typeof stock !== 'number' || price <= 0 || stock <= 0) {
+        if (!title || !description || !image || !category || typeof price !== 'number' || typeof stock !== 'number' || price <= 0 || stock <= 0) {
             res.status(400).json({ result: 'Incomplete or invalid required fields. Make sure you fill out everything correctly.' });
             return;
         }
         // Guardo los campos en una nueva variable
-        const newProduct = { title, description, price, stock, category }
+        const newProduct = { title, description, image, price, stock, category }
         await productManager.addProduct(newProduct);
         res.send({ result: 'Product added correctly', payload: newProduct });
 
@@ -113,7 +113,7 @@ router.put('/api/products/:pid', async (req, res) => {
             return res.status(404).json({ result: 'Product not found' });
         }
         // Verifico si se proporcionaron todos los campos necesarios
-        if (!updatedProduct.title || !updatedProduct.description || !updatedProduct.price || !updatedProduct.stock || !updatedProduct.category) {
+        if (!updatedProduct.title || !updatedProduct.description || !updatedProduct.image || !updatedProduct.price || !updatedProduct.stock || !updatedProduct.category) {
             return res.status(400).json({ error: 'Missing data to be completed' });
         }
 

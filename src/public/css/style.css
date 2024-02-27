@@ -16,7 +16,7 @@ body {
     margin: 0;
     padding: 0;
     /* background-color: rgba(93, 92, 97, 0.719); */
-    background-color: #e9edc9ff;
+    background-color: #FEFAE0;
 }
 
 .chat-container {
@@ -132,51 +132,83 @@ textarea {
 /* ESTILOS PARA LA PAGE PRODUCTS */
 h1 {
     text-align: center;
-    color: #ccd5aeff;
+    color: black;
     margin-top: 20px;
 }
 
 .products-container {
+    width: 78rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    align-items: center;
+    grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     gap: 20px;
-    padding: 20px;
-    max-width: 65rem;
-    /* Ajustar el ancho máximo para mantener el diseño */
-    margin: 0 auto;
+    margin: 100px 180px 0 auto;
+}
+
+.products-container>h1 {
+    width: 100%;
+    text-align: start;
+    grid-column: 1 / -1;
+    margin-left: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d4a373ff;
 }
 
 .product-card {
-    background-color: #fefae0ff;
-    border: 1px solid #faedcdff;
-    border-radius: 10px;
-    padding: 20px;
-    width: auto;
-    max-width: 14rem;
-    min-height: 300px;
+    background-color: #FAEDCD;
+    border: 1px solid #D4A373;
+    border-radius: 20px;
+    width: 390px;
+    height: auto;
+    min-height: 360px;
     box-sizing: border-box;
-    transition: transform 0.3s ease;
 }
 
-.product-card:hover {
-    transform: scale(1.02);
+.product-card>div {
+    padding: 4px 4px 0 4px;
 }
 
-.product-card h2 {
-    margin-top: 0;
-    color: #ccd5aeff;
+.product-card>div img {
+    object-fit: cover;
+    width: 100%;
+    max-height: 212px;
+    border-radius: 14px;
 }
 
-.product-card p {
-    margin: 10px 0;
+.product-card .content-card {
+    max-height: 200px;
+    padding: 16px 12px;
 }
 
-.product-card form {
-    display: flex;
-    justify-content: flex-end;
+.product-card .content-card h2 {
+    margin: 0;
+    font-size: 20px;
+    color: black;
 }
+
+.product-card .content-card p {
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+}
+
+.product-card .content-card button {
+    color: #000000 !important;
+    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #CCD5AE;
+    background: #CCD5AE;
+    margin-top: 10px;
+}
+
+.product-card .content-card button:hover {
+    color: #000000 !important;
+    background: #E9EDC9;
+    cursor: pointer;
+}
+
 
 /* Ajustes en el CSS para la paginación */
 
@@ -185,25 +217,29 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-top: 30px;
     padding: 20px 0;
-    background-color: #e9edc9ff;
-    border-top: 1px solid #faedcdff;
+    border-top: 1px solid #D4A373;
 }
 
-.pagination a {
-    color: #ccd5aeff;
+.pagination>a {
+    color: black;
+    font-size: 16px;
+    font-weight: 400;
     text-decoration: none;
     padding: 5px 10px;
-    border: 1px solid #ccd5aeff;
+    border: 1px solid #D4A373;
     border-radius: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.pagination a:hover {
-    background-color: #ccd5aeff;
-    color: #e9edc9ff;
+.pagination>a:hover {
+    background-color: #D4A373;
+    color: black;
 }
 
-.pagination span {
-    color: #d4a373ff;
+.pagination>span {
+    color: black;
+    font-size: 16px;
+    font-weight: 400;
 }

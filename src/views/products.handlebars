@@ -1,21 +1,23 @@
-<h1>Lista de Productos</h1>
-<div id="products-container" class="products-container">
+<h1>Our e-commerce is in the works</h1>
+<div class="products-container">
+    <h1>All products</h1>
     {{#each payload}}
     <div class="product-card">
-        <h2>{{title}}</h2>
-        <p>{{description}}</p>
-        <p>Precio: {{price}}</p>
-        <p>Stock: {{stock}}</p>
-        <p>Categoría: {{category}}</p>
-        <form action="/api/carts/{{cid}}/products/{{_id}}" method="POST">
-            <input type="hidden" name="quantity" value="1">
-            <button type="submit">Agregar al Carrito</button>
-        </form>
+        <div>
+            <img src={{image}} alt="">
+        </div>
+        <div class="content-card">
+            <h2>{{title}}</h2>
+            <p>{{description}}</p>
+            <p>Price: ${{price}}</p>
+            <p>Category: {{category}}</p>
+            <button type="submit">Add to cart</button>
+        </div>
     </div>
     {{/each}}
 
 </div>
-<div id="pagination-container" class="pagination">
+<div class="pagination">
     {{#if prevLink}}
     <a href="{{prevLink}}">Anterior</a>
     {{/if}}
