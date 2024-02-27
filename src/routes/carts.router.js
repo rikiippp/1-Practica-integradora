@@ -32,7 +32,7 @@ router.get('/api/carts/:cid', async (req, res) => {
 router.post('/api/carts/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
-        const { quantity } = req.body; // Asegugarse de la cantidad
+        const { quantity } = req.body;
 
         const updatedCart = await cartManager.addProductToCart(cid, pid, quantity);
 
@@ -71,19 +71,32 @@ router.put('/api/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
         const { products } = req.body;
-        const cart = await cartModel.findById(cid);
-        if (!cart) {
-            return res.status(404).json({ message: 'Cart not found.' });
+
+        if (!products) {
+            return res.status(400).json({ message: 'No products provided.' });
         }
 
-        cart.products = products.map(p => ({ productId: p.productId, quantity: p.quantity }));
-        await cart.save();
+        const updatedProducts = products.map(p => ({ productId: p.productId, quantity: p.quantity }));
 
-        res.send({ result: 'Cart updated successfully' });
+        // Actualizo el carrito en la DB
+        const result = await cartModel.updateOne(
+            { _id: cid },
+            { $set: { products: updatedProducts } }
+        );
+
+        if (result.nModified === 0) {
+            return res.status(404).json({ message: 'Cart not found or no changes made.' });
+        }
+
+        const updatedCart = await cartModel.findById(cid);
+
+        res.send({ result: 'Cart updated successfully', payload: updatedCart });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ error: 'Server error.' });
     }
 });
+
 
 // Actualizar la cantidad de un producto en el carrito
 router.put('/api/carts/:cid/products/:pid', async (req, res) => {
@@ -99,11 +112,14 @@ router.put('/api/carts/:cid/products/:pid', async (req, res) => {
         if (productIndex === -1) {
             return res.status(404).json({ message: 'Product not found in cart.' });
         }
-
-        cart.products[productIndex].quantity = quantity;
-        await cart.save();
-
-        res.send({ result: 'Product quantity updated successfully' });
+        // Verificar si se proporcionó una cantidad
+        if (quantity !== undefined) {
+            cart.products[productIndex].quantity = quantity;
+            await cart.save();
+            res.send({ result: 'Product quantity updated successfully', payload: cart });
+        } else {
+            return res.status(400).json({ message: 'Quantity not provided.' });
+        }
     } catch (error) {
         res.status(500).json({ error: 'Server error.' });
     }
