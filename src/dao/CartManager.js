@@ -23,6 +23,15 @@ class CartManager {
         }
     };
 
+    async getAllCarts() {
+        try {
+            const carts = await cartModel.find().populate('products.productId');
+            return carts;
+        } catch (error) {
+            throw error;
+        }
+    };
+
     async addProductToCart(cartId, productId, quantity) {
         try {
             const cart = await cartModel.findById(cartId);
@@ -32,12 +41,16 @@ class CartManager {
 
             const existingProductIndex = cart.products.findIndex(p => p.productId.toString() === productId.toString());
 
+            // Asegurarse de que quantity sea un número
+            const quantityNumber = parseInt(quantity, 10);
+            if (isNaN(quantityNumber)) {
+                quantityNumber = 1; // Valor predeterminado si quantity no es un número
+            }
+
             if (existingProductIndex !== -1) {
-                // Si el producto ya existe en el carrito, actualiza su cantidad
-                cart.products[existingProductIndex].quantity += quantity;
+                cart.products[existingProductIndex].quantity += quantityNumber;
             } else {
-                // Si el producto no existe en el carrito, lo agrega con la cantidad especificada
-                cart.products.push({ productId, quantity });
+                cart.products.push({ productId, quantity: quantityNumber });
             }
 
             await cart.save();

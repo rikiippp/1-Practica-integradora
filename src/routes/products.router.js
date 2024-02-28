@@ -9,18 +9,12 @@ const router = Router();
 // Obtengo todos los productos
 router.get('/api/products', async (req, res) => {
     try {
-        const { limit = 10, page = 1, sort, query } = req.query;
+        const { limit = 9, page = 1, sort, query } = req.query;
         const skip = (page - 1) * limit;
         let queryParams = {};
 
         if (query) {
-            queryParams = {
-                $or: [
-                    { title: { $regex: query, $options: 'i' } },
-                    { description: { $regex: query, $options: 'i' } },
-                    { category: { $regex: query, $options: 'i' } }
-                ]
-            };
+            queryParams = { category: { $regex: query, $options: 'i' } };
         }
 
         const products = await productsModel.find(queryParams)
@@ -38,10 +32,11 @@ router.get('/api/products', async (req, res) => {
         }
 
         // Generar enlaces de paginación solo si hay páginas anteriores o siguientes disponibles
-        const prevLink = page > 1 ? `/api/products?limit=${limit}&page=${parseInt(page) - 1}` : null;
-        const nextLink = page < totalPages ? `/api/products?limit=${limit}&page=${parseInt(page) + 1}` : null;
+        const prevLink = page > 1 ? `/api/products?limit=${limit}&page=${parseInt(page) - 1}&query=${query || ''}` : null;
+        const nextLink = page < totalPages ? `/api/products?limit=${limit}&page=${parseInt(page) + 1}&query=${query || ''}` : null;
 
         res.render('products', {
+            favIcon: '/uploads/icon-clock.png',
             titlePage: 'Home | Products',
             payload: products,
             totalPages,
