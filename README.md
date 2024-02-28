@@ -6,9 +6,15 @@ Este es un proyecto e-commerce desarrollado por **Ricardo Piñero**. El proyecto
 
 El proyecto permite cargar, agregar, eliminar y editar productos, los cuales pueden ser agregados a carritos de compra. Además, cuenta con un sistema de chat donde los usuarios pueden enviar mensajes y verlos en la pagina.
 
+## Vista del home
+![alt text](image-2.png)
+
+## Vista del carrito
+![alt text](image.png)
+
 ## Vista del chat
 
-![alt text](image-1.png)
+![alt text](image-3.png)
 
 ## Dependencias
 
