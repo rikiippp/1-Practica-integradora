@@ -4,17 +4,18 @@ Este es un proyecto e-commerce desarrollado por **Ricardo Piñero**. El proyecto
 
 ## Descripción
 
-El proyecto permite cargar, agregar, eliminar y editar productos, los cuales pueden ser agregados a carritos de compra. Además, cuenta con un sistema de chat donde los usuarios pueden enviar mensajes y verlos en la pagina.
+El proyecto permite cargar, agregar, eliminar y editar productos, los cuales pueden ser agregados a carritos de compra. Además, cuenta con un sistema de chat donde los usuarios pueden enviar mensajes y verlos en la página.
 
-## Vista del home
-![alt text](image-2.png)
+## Vista Previa
 
-## Vista del carrito
-![alt text](image.png)
+### Home
+![Home](image-2.png)
 
-## Vista del chat
+### Carrito
+![Carrito](image.png)
 
-![alt text](image-3.png)
+### Chat
+![Chat](image-3.png)
 
 ## Dependencias
 
@@ -43,22 +44,30 @@ npm install
 node app.js
 ```
 
-4. Utiliza Postman para interactuar con la API utilizando los siguientes endpoints:
+4. Utiliza Postman y tu Navegador Web para interactuar con la API utilizando los siguientes endpoints:
 
 ### Endpoints
 
-#### Obtener todos los productos:
+#### Obtener todos los productos (Vista disponible):
 - Método: GET
-- URL: http://localhost:8080/api/products/
+- URL: `http://localhost:8080/api/products/`
+- Descripción: Obtiene todos los productos disponibles.
 
-#### Obtener un producto por ID:
+#### Obtener un producto por ID (Necesitas Postman):
 - Método: GET
-- URL: http://localhost:8080/api/products/:pid
+- URL: `http://localhost:8080/api/products/:pid`
+- Descripción: Obtiene un producto específico por su ID.
 - Donde :pid es el ID del producto.
 
-#### Crear un nuevo producto:
+#### Obtener todos los productos con query (Vista disponible):
+- Método: GET
+- URL: `http://localhost:8080/api/products?query=`
+- Descripción: Filtra y obtiene productos por categoría (lujo, acero, cuero y digital).
+
+#### Crear un nuevo producto (Necesitas Postman):
 - Método: POST
-- URL: http://localhost:8080/api/products/
+- URL: `http://localhost:8080/api/products/`
+- Descripción: Crea un nuevo producto.
 - Cuerpo de la solicitud (en formato JSON):
 ```json
 {
@@ -70,9 +79,10 @@ node app.js
 }
 ```
 
-#### Actualizar un producto:
+#### Actualizar un producto (Necesitas Postman):
 - Método: PUT
-- URL: http://localhost:8080/api/products/:pid
+- URL: `http://localhost:8080/api/products/:pid`
+- Descripción: Actualiza un producto existente.
 - Donde :pid es el ID del producto.
 - Cuerpo de la solicitud (en formato JSON):
 ```json
@@ -84,25 +94,78 @@ node app.js
     "category": "Nueva categoría"
 }
 ```
-#### Eliminar un producto:
+
+#### Actualizar carrito con un nuevo conjunto de productos (Necesitas Postman):
+- Método: PUT
+- URL: `http://localhost:8080/api/carts/:cid`
+- Descripción: Actualiza los productos en un carrito.
+- Uso: Envía una solicitud PUT con una lista de productos y cantidades deseadas en formato JSON y el ID del carrito en la URL.
+```json
+{
+    "products": [
+        {
+            "productId": "",
+            "quantity": 1
+        },
+        {
+            "productId": "",
+            "quantity": 1
+        }
+    ]
+}
+```
+
+### Actualizar la cantidad de un producto en un carrito (Necesitas Postman):
+- Método: PUT
+- URL: `http://localhost:8080/api/carts/:cid/products/:pid`
+- Descripción: Actualiza la cantidad de un producto en un carrito.
+- Uso: Envía una solicitud PUT con la nueva cantidad en formato JSON y los IDs del carrito y del producto en la URL.
+```json
+{
+    "quantity": 1
+}
+```
+
+#### Eliminar un producto (Necesitas Postman):
 - Método: DELETE
-- URL: http://localhost:8080/api/products/:pid
+- URL: `http://localhost:8080/api/products/:pid`
+- Descripción: Elimina un producto existente.
 - Donde :pid es el ID del producto a eliminar.
-- Crear un carrito de compra por ID:
+
+### Crear un carrito de compra por ID (Necesitas Postman):
 - Método: POST
-- URL: http://localhost:8080/api/carts
-#### Buscar un carrito por ID:
+- URL: `http://localhost:8080/api/carts`
+- Descripción: Crea un nuevo carrito de compra.
+
+#### Borrar producto del carrito (Necesitas Postman):
+- Método: DELETE
+- URL: `http://localhost:8080/api/carts/:cid/products/:pid`
+- Descripción: Elimina un producto del carrito.
+
+### Borrar todos los productos del carrito (Necesitas Postman):
+- Método: DELETE
+- URL: `http://localhost:8080/api/carts/:cid`
+- Descripción: Elimina todos los productos del carrito.
+
+#### Buscar un carrito por ID (Vista disponible):
 - Método: GET
-- URL: http://localhost:8080/api/carts/:cid
+- URL: `http://localhost:8080/api/carts/:cid`
+- Descripción: Obtiene un carrito de compra por su ID.
 - Donde :cid es el ID del carrito.
-#### Agregar un producto a un carrito:
+
+#### Agregar un producto a un carrito (Necesitas Postman):
 - Método: POST
-- URL: http://localhost:8080/api/carts/:cid/product/:pid
+- URL: `http://localhost:8080/api/carts/:cid/product/:pid`
+- Descripción: Agrega un producto al carrito.
 - Donde :cid es el ID del carrito y :pid es el ID del producto.
-#### Obtener mensajes del chat:
+
+#### Chat (Vista disponible):
 - Método: GET
-- URL: http://localhost:8080/api/chat
-#### Subir archivos:
+- URL: `http://localhost:8080/api/chat`
+- Descripción: Obtiene y envía mensajes en el chat.
+
+#### Subir archivos (Necesitas Postman):
 - Método: POST
-- URL: http://localhost:8080/api/upload
+- URL: `http://localhost:8080/api/upload`
+- Descripción: Sube archivos a la aplicación.
 - En el cuerpo de la solicitud, selecciona un archivo para cargar.
