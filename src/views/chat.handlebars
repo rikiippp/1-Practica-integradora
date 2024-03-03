@@ -1,9 +1,9 @@
 <header>
-    <a href="http://localhost:8080/api/products"><img src="/uploads/icon-clock.png" alt="Preview Icon"></a>
+    <a href="http://localhost:8080/products"><img src="/uploads/icon-clock.png" alt="Preview Icon"></a>
     <ul>
-        <li><a href="http://localhost:8080/api/products">Home</a></li>
-        <li><a href="http://localhost:8080/api/products">Sign in</a></li>
-        <li><a href="http://localhost:8080/api/carts/:cid">Cart</a></li>
+        <li><a href="http://localhost:8080/products">Home</a></li>
+        <li><a href="http://localhost:8080/products">Sign in</a></li>
+        <li><a href="http://localhost:8080/carts/:cid">Cart</a></li>
     </ul>
 </header>
 <div class="chat-container">
@@ -24,7 +24,7 @@
         {{/each}}
     </div>
     <div class="form-container">
-        <form action="/api/chat" method="POST">
+        <form action="/chat" method="POST">
             <label for="user">User:</label>
             <input type="text" id="user" name="user" required>
             <label for="message">Message:</label>
@@ -34,7 +34,7 @@
         </form>
     </div>
     <div class="icon-chat">
-        <a href="http://localhost:8080/api/products"><img class="icon-clock-chat" src="/uploads/icon-clock.png" alt="Icon Chat"></a>
+        <a href="http://localhost:8080/products"><img class="icon-clock-chat" src="/uploads/icon-clock.png" alt="Icon Chat"></a>
     </div>
 
 </div>

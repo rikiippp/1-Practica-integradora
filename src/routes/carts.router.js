@@ -5,17 +5,11 @@ import productsModel from "../dao/models/products.model.js";
 
 // LOGIC
 const cartManager = new CartManager();
-// Función para calcular el total
-function calculateTotal(price, quantity) {
-    return price * quantity;
-}
-
-
 const router = Router();
 
 //ENDPOINTS
 // Creo un nuevo cart
-router.post('/api/carts', async (req, res) => {
+router.post('/carts', async (req, res) => {
     try {
         const newCart = await cartManager.createCart();
         res.status(201).json({ message: 'Cart successfully created.', newCart });
@@ -25,7 +19,7 @@ router.post('/api/carts', async (req, res) => {
 });
 
 // Obtengo todos los carts
-router.get('/api/carts', async (req, res) => {
+router.get('/carts', async (req, res) => {
     try {
         const carts = await cartManager.getAllCarts();
         res.send(carts);
@@ -36,7 +30,7 @@ router.get('/api/carts', async (req, res) => {
 
 
 // Obtengo el cart a través de su id
-router.get('/api/carts/:cid', async (req, res) => {
+router.get('/carts/:cid', async (req, res) => {
     try {
         const cartId = req.params.cid;
         const cart = await cartModel.findById(cartId).populate('products.productId');
@@ -60,7 +54,7 @@ router.get('/api/carts/:cid', async (req, res) => {
 
 
 // Agrego un producto a un cart especifico
-router.post('/api/carts/:cid/products/:pid', async (req, res) => {
+router.post('/carts/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
         let { quantity } = req.body;
@@ -80,7 +74,7 @@ router.post('/api/carts/:cid/products/:pid', async (req, res) => {
 });
 
 // Eliminar un producto del carrito
-router.delete('/api/carts/:cid/products/:pid', async (req, res) => {
+router.delete('/carts/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
         const cart = await cartModel.findById(cid);
@@ -110,7 +104,7 @@ router.delete('/api/carts/:cid/products/:pid', async (req, res) => {
 });
 
 // Actualiza el carrito con un nuevo conjunto de productos
-router.put('/api/carts/:cid', async (req, res) => {
+router.put('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
         const { products } = req.body;
@@ -146,7 +140,7 @@ router.put('/api/carts/:cid', async (req, res) => {
 });
 
 // Actualizar la cantidad de un producto en el carrito
-router.put('/api/carts/:cid/products/:pid', async (req, res) => {
+router.put('/carts/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
         const { quantity } = req.body;
@@ -184,7 +178,7 @@ router.put('/api/carts/:cid/products/:pid', async (req, res) => {
 });
 
 // Eliminar todos los productos del carrito
-router.delete('/api/carts/:cid', async (req, res) => {
+router.delete('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
         const cart = await cartModel.findById(cid);

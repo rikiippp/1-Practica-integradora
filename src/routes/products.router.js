@@ -7,7 +7,7 @@ const productManager = new ProductManager()
 const router = Router();
 
 // Obtengo todos los productos
-router.get('/api/products', async (req, res) => {
+router.get('/products', async (req, res) => {
     try {
         const { limit = 9, page = 1, sort, query } = req.query;
         const skip = (page - 1) * limit;
@@ -32,8 +32,8 @@ router.get('/api/products', async (req, res) => {
         }
 
         // Generar enlaces de paginación solo si hay páginas anteriores o siguientes disponibles
-        const prevLink = page > 1 ? `/api/products?limit=${limit}&page=${parseInt(page) - 1}&query=${query || ''}` : null;
-        const nextLink = page < totalPages ? `/api/products?limit=${limit}&page=${parseInt(page) + 1}&query=${query || ''}` : null;
+        const prevLink = page > 1 ? `/products?limit=${limit}&page=${parseInt(page) - 1}&query=${query || ''}` : null;
+        const nextLink = page < totalPages ? `/products?limit=${limit}&page=${parseInt(page) + 1}&query=${query || ''}` : null;
 
         res.render('products', {
             favIcon: '/uploads/icon-clock.png',
@@ -54,7 +54,7 @@ router.get('/api/products', async (req, res) => {
 
 
 // Obtengo productos por id
-router.get('/api/products/:pid', async (req, res) => {
+router.get('/products/:pid', async (req, res) => {
     try {
         const product = await productManager.getProductById(req.params.pid)
         if (!product) {
@@ -67,7 +67,7 @@ router.get('/api/products/:pid', async (req, res) => {
 });
 
 // Creo un nuevo producto
-router.post('/api/products', async (req, res) => {
+router.post('/products', async (req, res) => {
     try {
         const { title, description, image, price, stock, category } = req.body;
 
@@ -87,7 +87,7 @@ router.post('/api/products', async (req, res) => {
 })
 
 // Elimino un producto por id
-router.delete('/api/products/:pid', async (req, res) => {
+router.delete('/products/:pid', async (req, res) => {
     try {
         const result = await productManager.deleteProduct(req.params.pid)
         res.send({ result: 'Product removed correctly', payload: result })
@@ -97,7 +97,7 @@ router.delete('/api/products/:pid', async (req, res) => {
 })
 
 // Modifico un producto ya creado
-router.put('/api/products/:pid', async (req, res) => {
+router.put('/products/:pid', async (req, res) => {
     try {
         const productId = req.params.pid;
         const updatedProduct = req.body;

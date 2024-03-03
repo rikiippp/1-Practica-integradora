@@ -1,8 +1,8 @@
 <header>
-    <a href="http://localhost:8080/api/products"><img src="/uploads/icon-clock.png" alt="Preview Icon"></a>
+    <a href="http://localhost:8080/products"><img src="/uploads/icon-clock.png" alt="Preview Icon"></a>
     <ul>
-        <li><a href="http://localhost:8080/api/products">Home</a></li>
-        <li><a href="http://localhost:8080/api/products">Sign in</a></li>
+        <li><a href="http://localhost:8080/products">Home</a></li>
+        <li><a href="http://localhost:8080/products">Sign in</a></li>
         <li class="dropdown">
             <a href="#" class="dropbtn">Cart</a>
             <div class="dropdown-content" id="cartDropdown">
@@ -41,7 +41,7 @@
         {{/if}}
     </div>
     <div class="icon-chat">
-        <a href="http://localhost:8080/api/chat"><img src="/uploads/1708456649794-message.png" alt="Icon Chat"></a>
+        <a href="http://localhost:8080/chat"><img src="/uploads/1708456649794-message.png" alt="Icon Chat"></a>
     </div>
 </main>
 
@@ -51,12 +51,12 @@
         const dropdownContent = document.getElementById('cartDropdown');
 
         // Obtener todos los carritos
-        const carts = await fetch('http://localhost:8080/api/carts').then(response => response.json());
+        const carts = await fetch('http://localhost:8080/carts').then(response => response.json());
 
         // Generar dinámicamente los elementos del menú desplegable
         carts.forEach(cart => {
             const link = document.createElement('a');
-            link.href = `http://localhost:8080/api/carts/${cart._id}`;
+            link.href = `http://localhost:8080/carts/${cart._id}`;
             link.textContent = `Cart ${cart._id}`;
             dropdownContent.appendChild(link);
         });

@@ -1,8 +1,10 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import handlebars from 'express-handlebars';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import path from 'path';
 import __dirname from './utils.js';
-import mongoose from 'mongoose';
 
 //LOGIC
 import productsRouter from './routes/products.router.js';
@@ -24,15 +26,15 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 //ROUTER ENDOPOINTS
-app.use('/', productsRouter)
-app.use('/', cartsRouter)
-app.use('/', chatRouter)
-app.use('/', uploadRouter)
+app.use('/', productsRouter);
+app.use('/', cartsRouter);
+app.use('/', chatRouter);
+app.use('/', uploadRouter);
 
 //ENDPOINTS
 app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`)
-})
+});
 
 //CONNECTION TO MONGODB ATLAS
 mongoose.connect('mongodb+srv://rikiippp:deadboy212322@cluster0.cuvxaea.mongodb.net/ecommerce?retryWrites=true&w=majority')
