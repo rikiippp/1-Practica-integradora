@@ -4,28 +4,35 @@ import User from '../dao/models/user.model.js';
 const router = Router();
 
 router.get('/', (req, res) => {
+    const error = req.query.error;
     res.render('register', {
-        titlePage: 'Register | Relojeria'
+        titlePage: 'Register | Relojeria',
+        error
     });
 });
 
-// Ruta para el registro de usuarios
+// Ruta unificada para el registro de usuarios
 router.post('/', async (req, res) => {
     try {
-        const newUser = new User({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            role: 'usuario'
-        });
+        const { name, email, password, isAdmin } = req.body;
 
+        // Verifica si el usuario ya existe
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.redirect(`/?error=El usuario ya existe`);
+        }
+
+        // Crea y guarda el nuevo usuario
+        const newUser = new User({ name, email, password, role: isAdmin ? 'admin' : 'usuario' });
         await newUser.save();
-        req.session.name = newUser.name; // Guarda el nombre del usuario en la sesión
+
+        // Guarda el nombre del usuario en la sesión y redirige a la página de login
+        req.session.name = newUser.name;
         res.redirect('/login');
     } catch (error) {
-        res.status(500).send('Error al registrar el usuario');
+        console.error(error);
+        res.redirect('/?error=Error al registrar el usuario');
     }
 });
-
 
 export default router;

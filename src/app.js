@@ -29,7 +29,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: 'mongodb+srv://rikiippp:deadboy212322@cluster0.cuvxaea.mongodb.net/ecommerce?retryWrites=true&w=majority' }),
-    cookie: { maxAge: 100000 } // 10 segundos
+    cookie: { secure: false, maxAge: 100000 } // 1 minuto
 }));
 
 //COOKIE

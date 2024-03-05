@@ -14,33 +14,13 @@ const checkRole = (role) => {
     };
 };
 
-// Ruta para registrarse
-router.post('/submit', async (req, res) => {
-    try {
-        const { email, password, name, isAdmin } = req.body;
-
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ error: 'El usuario ya existe' });
-        }
-
-        const newUser = new User({ email, password, name, isAdmin });
-        await newUser.save();
-
-        // Redirige al usuario a la página de login después de registrarse
-        res.redirect('/login');
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error submitting registration form' });
-    }
-});
-
-
 // Ruta para el login
 router.get('/login', (req, res) => {
     try {
+        const error = req.query.error;
         res.render('login', {
-            titlePage: 'Login | Relojeria'
+            titlePage: 'Login | Relojeria',
+            error
         });
     } catch (error) {
         res.status(500).json({ error: 'Error rendering login page' });
@@ -54,7 +34,8 @@ router.post('/login/submit', async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user || user.password !== password) {
-            return res.status(401).json({ error: 'Credenciales inválidas' });
+            // Redirige al usuario a la página de login con un mensaje de error
+            return res.redirect('/login?error=Credenciales inválidas');
         }
         // Establece la cookie al iniciar sesión
         res.cookie('user', { email: user.email, name: user.name, role: user.role }, { maxAge: 100000 });
@@ -74,8 +55,7 @@ router.post('/login/submit', async (req, res) => {
             res.redirect('/products'); // Redirige a la página de productos
         }
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error submitting login form' });
+        res.redirect('/login?error=Error al iniciar sesión');
     }
 });
 
@@ -117,9 +97,8 @@ router.get('/logout', (req, res) => {
 
 // Ruta para el administrador
 router.get('/admin', checkRole('admin'), (req, res) => {
-    // Asegurarse de que estamos accediendo al rol correcto de la sesión
-    const role = req.session.role;
-    res.send(`¡Bienvenido al panel de administracion, tu rol es ${role}!`);
+    const { role, name } = req.session;
+    res.send(`¡Bienvenido ${name} al panel de administracion, tu rol es ${role}!`);
 });
 
 export default router;
