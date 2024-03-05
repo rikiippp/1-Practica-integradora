@@ -27,18 +27,14 @@ router.post('/submit', async (req, res) => {
         const newUser = new User({ email, password, name, isAdmin });
         await newUser.save();
 
-        req.session.role = newUser.isAdmin ? 'admin' : 'user';
-        req.session.name = newUser.name;
-
-        // Establecer la cookie al registrarse
-        res.cookie('user', { email: user.email, name: user.name, role: user.role }, { maxAge: 100000 });
-
-        res.redirect('/products');
+        // Redirige al usuario a la página de login después de registrarse
+        res.redirect('/login');
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error submitting registration form' });
     }
 });
+
 
 // Ruta para el login
 router.get('/login', (req, res) => {
@@ -70,7 +66,7 @@ router.post('/login/submit', async (req, res) => {
         // Verifica si el usuario es administrador
         if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
             req.session.role = 'admin';
-            req.session.name = 'Admin';
+            req.session.name = user.name;
             res.redirect('/admin'); // Redirige al panel de administración
         } else {
             req.session.role = 'user';
@@ -119,10 +115,11 @@ router.get('/logout', (req, res) => {
     }
 });
 
-// Middleware para verificar el rol antes de acceder al panel de administración
+// Ruta para el administrador
 router.get('/admin', checkRole('admin'), (req, res) => {
-    res.send('Bienvenido al panel de administración');
+    // Asegurarse de que estamos accediendo al rol correcto de la sesión
+    const role = req.session.role;
+    res.send(`¡Bienvenido al panel de administracion, tu rol es ${role}!`);
 });
-
 
 export default router;
