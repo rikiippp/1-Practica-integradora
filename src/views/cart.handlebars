@@ -2,17 +2,20 @@
     <a href="http://localhost:8080/products"><img src="/uploads/icon-clock.png" alt="Preview Icon"></a>
     <ul>
         <li><a href="http://localhost:8080/products">Home</a></li>
-        <li><a href="http://localhost:8080/products">Sign in</a></li>
+        <li id="authLink"></li>
         <li class="dropdown">
-            <a href="http://localhost:8080/products" class="dropbtn">Cart</a>
+            <a href="#" class="dropbtn">Cart</a>
             <div class="dropdown-content" id="cartDropdown">
-                <!-- Los link del carrito se agregan aca dinámicamente -->
+                <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
             </div>
         </li>
     </ul>
 </header>
 
 <main>
+    <div class="background-container">
+        <img src="/uploads/background-body-2.jpg" alt="Fondo body">
+    </div>
     <div class="cart-container">
         <h1>SHOPPING CART</h1>
         <div class="table-container">
@@ -48,35 +51,33 @@
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', async function () {
-        const dropdown = document.querySelector('.dropdown');
-        const dropdownContent = document.getElementById('cartDropdown');
+        document.addEventListener('DOMContentLoaded', async function () {
+            const dropdown = document.querySelector('.dropdown');
+            const dropdownContent = document.getElementById('cartDropdown');
 
-        // Obtengo todos los carritos
-        const carts = await fetch('http://localhost:8080/carts').then(response => response.json());
+            // Obtener todos los carritos
+            const carts = await fetch('http://localhost:8080/carts').then(response => response.json());
 
-        // Aca genero dinámicamente los links del menú desplegable
-        carts.forEach(cart => {
-            const link = document.createElement('a');
-            link.href = `http://localhost:8080/carts/${cart._id}`;
-            link.textContent = `Cart ${cart._id}`;
-            dropdownContent.appendChild(link);
+            // Generar dinámicamente los elementos del menú desplegable
+            carts.forEach(cart => {
+                const link = document.createElement('a');
+                link.href = `http://localhost:8080/carts/${cart._id}`;
+                link.textContent = `Cart ${cart._id}`;
+                dropdownContent.appendChild(link);
+            });
+
+            // Mostrar u ocultar el menú desplegable al hacer clic en el elemento <li> del carrito
+            dropdown.addEventListener('click', function (event) {
+                // Evita que el evento de clic se propague al elemento <a> dentro del <li>
+                event.stopPropagation();
+                dropdownContent.classList.toggle('show');
+            });
+
+            // Ocultar el menú desplegable al hacer clic fuera de él
+            document.addEventListener('click', function (event) {
+                if (!dropdown.contains(event.target)) {
+                    dropdownContent.classList.remove('show');
+                }
+            });
         });
-        console.log(carts)
-
-        // Muestro el submenu
-        dropdown.addEventListener('click', function (event) {
-            event.stopPropagation();
-            dropdownContent.classList.toggle('show');
-        });
-
-        // Oculto el menu al clickear afuera del link
-        document.addEventListener('click', function (event) {
-            if (!dropdown.contains(event.target)) {
-                dropdownContent.classList.remove('show');
-            }
-        });
-    });
-
-
 </script>

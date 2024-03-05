@@ -6,6 +6,16 @@ const productManager = new ProductManager()
 
 const router = Router();
 
+// Ruta para obtener todos los productos en formato JSON
+// router.get('/', async (req, res) => {
+//     try {
+//         const products = await productsModel.find();
+//         res.json(products);
+//     } catch (error) {
+//         res.status(500).json({ error: 'Error fetching products' });
+//     }
+// });
+
 // Obtengo todos los productos
 router.get('/products', async (req, res) => {
     try {
@@ -35,6 +45,9 @@ router.get('/products', async (req, res) => {
         const prevLink = page > 1 ? `/products?limit=${limit}&page=${parseInt(page) - 1}&query=${query || ''}` : null;
         const nextLink = page < totalPages ? `/products?limit=${limit}&page=${parseInt(page) + 1}&query=${query || ''}` : null;
 
+        // Incrementa el contador de visitas cada vez que se accede a la página de inicio
+        req.session.views = req.session.views ? ++req.session.views : 1;
+
         res.render('products', {
             favIcon: '/uploads/icon-clock.png',
             titlePage: 'Home | Products',
@@ -44,10 +57,15 @@ router.get('/products', async (req, res) => {
             nextLink,
             page,
             hasPrevPage: page > 1,
-            hasNextPage: page < totalPages
+            hasNextPage: page < totalPages,
+            session: {
+                name: req.session.name,
+                views: req.session.views,
+                role: req.session.role || 'user'
+            },
+            isLoggedIn: req.session.name ? true : false
         });
     } catch (error) {
-        console.error(error);
         res.status(500).send('Error fetching products');
     }
 });

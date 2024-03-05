@@ -1,17 +1,30 @@
 <header>
     <a href="http://localhost:8080/products"><img src="/uploads/icon-clock.png" alt="Preview Icon"></a>
     <ul>
+        <li>
+            <button onclick="getCookie()" class="get-cookie">Get Cookie</button>
+        </li>
         <li><a href="http://localhost:8080/products">Home</a></li>
-        <li><a href="http://localhost:8080/products">Sign in</a></li>
+        <li id="authLink"></li>
         <li class="dropdown">
             <a href="#" class="dropbtn">Cart</a>
             <div class="dropdown-content" id="cartDropdown">
                 <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
             </div>
         </li>
+
     </ul>
 </header>
 <main>
+    <div class="background-container">
+        <img src="/uploads/background-body-2.jpg" alt="Fondo body">
+    </div>
+    {{#if session.name}}
+    <h1>¡ Welcome {{session.name}}, your role is {{session.role}} !</h1>
+    {{else}}
+    <h1>¡ Welcome visitor !</h1>
+    {{/if}}
+    <h2>You have visited this page {{session.views}} times</h2>
     <h1>Our e-commerce is in the works</h1>
     <div class="products-container">
         <h1>All products</h1>
@@ -75,4 +88,24 @@
             }
         });
     });
+    document.addEventListener('DOMContentLoaded', function () {
+        const isLoggedIn = {{ isLoggedIn }};
+    const authLink = document.getElementById('authLink');
+    if (isLoggedIn) {
+        authLink.innerHTML = '<a href="/logout">Sign out</a>';
+    } else {
+        authLink.innerHTML = '<a href="/login">Sign in</a>';
+    }
+    });
+    function getCookie() {
+        fetch('/getCookie')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al obtener la cookie');
+                }
+                return response.text();
+            })
+            .then(cookie => console.log(cookie))
+            .catch(error => console.error(error));
+    };
 </script>

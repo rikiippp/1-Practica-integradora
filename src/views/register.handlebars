@@ -1,0 +1,43 @@
+<section>
+
+    <div class="login-container">
+        <div class="form-value">
+            <form action="/submit" method="post">
+                <h2>Register</h2>
+                <div class="input-box">
+                    <input type="text" id="name" name="name" required>
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-box">
+                    <input type="email" id="email" name="email" required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="input-box">
+                    <input type="password" id="password" name="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <button type="submit">Sign Up</button>
+                <div class="login-register">
+                    <p>I have an account <a href="http://localhost:8080/login">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('.input-box input');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function () {
+                if (this.value.trim() === '') {
+                    this.classList.remove('has-content');
+                } else {
+                    this.classList.add('has-content');
+                }
+            });
+        });
+    });
+</script>

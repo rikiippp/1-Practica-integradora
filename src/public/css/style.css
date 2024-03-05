@@ -1,37 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-
-colors {
-    --tea-green: #ccd5aeff;
-    --beige: #e9edc9ff;
-    --cornsilk: #fefae0ff;
-    --papaya-whip: #faedcdff;
-    --buff: #d4a373ff;
-}
-
 body {
     font-family: "Roboto", sans-serif;
     font-weight: 100;
     font-style: normal;
     margin: 0;
     padding: 0;
-    background-color: #FEFAE0;
 }
+
+/* ESTILOS PARA EL HEADER */
 
 header {
     width: 100%;
     height: 7vh;
     min-height: 7vh;
-    background-color: #d4a373ff;
+    background-color: rgb(49, 34, 68, 0.5);
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 header ul {
-    display: flex;
+    margin: 0 20px 0 0;
+    padding: 0;
     list-style-type: none;
-    margin: 0 30px 0 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
 }
 
 header ul li {
@@ -39,15 +35,16 @@ header ul li {
 }
 
 header ul li a {
-    color: #000000;
+    color: #fff;
     font-size: 17px;
     font-weight: 500;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.2s ease, padding-right .3s ease, border-right 0.2s ease;
 }
 
 header ul li a:hover {
-    color: #E9EDC9;
+    padding-right: 5px;
+    border-right: 2px solid #fff;
 }
 
 header>a {
@@ -59,14 +56,51 @@ header>a {
 
 header>a>img {
     height: 100%;
-    filter: brightness(0%);
+    filter: sepia(100%) saturate(0%) brightness(1000%) hue-rotate(120deg);
 }
 
+/* Estilo para el botón Get Cookie */
+.get-cookie {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #7D5B8B;
+    border-radius: 5px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Cambia el estilo del botón al pasar el mouse */
+.get-cookie:hover {
+    background-color: #7D5B8B;
+    color: #fff;
+}
+
+/* ----------------------------------------------- */
+/* ESTILOS PARA EL FONDO Y MAIN */
 main {
-    height: 100vh;
+    min-height: 100vh;
 }
 
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
 
+.background-container img {
+    width: 100%;
+    height: 100%;
+}
+
+/* ------------------------------------------------ */
+
+/* ESTILOS PARA EL CHAT */
 .chat-container {
     width: 550px;
     min-height: 700px;
@@ -182,7 +216,7 @@ textarea {
     top: 89%;
     right: 30px;
     transform: translateY(80%);
-    background-color: #d4a373ff;
+    background-color: rgba(159, 134, 192, 0.5);
     width: 50px;
     height: 50px;
     border-radius: 50px;
@@ -211,12 +245,18 @@ textarea {
     margin: 5px 0 0 10px;
 }
 
+/* -------------------------------------------------------------- */
 
 /* ESTILOS PARA LA PAGE PRODUCTS */
 h1 {
     text-align: center;
-    color: black;
+    color: #fff;
     margin-top: 20px;
+}
+
+h2 {
+    text-align: center;
+    color: #fff;
 }
 
 .products-container {
@@ -233,19 +273,19 @@ h1 {
     font-size: 24px;
     text-align: start;
     grid-column: 1 / -1;
-    margin-left: 15px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #d4a373ff;
+    border-bottom: 1px solid #9F86C0;
 }
 
 .product-card {
-    background-color: #FAEDCD;
-    border: 1px solid #D4A373;
+    background-color: rgba(159, 134, 192, 0.5);
+    border: 2px solid rgba(159, 134, 192, 0.5);
     border-radius: 20px;
     width: 380px;
     height: auto;
     min-height: 350px;
     box-sizing: border-box;
+    color: #fff;
 }
 
 .product-card>div {
@@ -271,14 +311,14 @@ h1 {
 .product-card .content-card>h2 {
     margin: 0;
     font-size: 17px;
-    color: black;
+    color: #fff;
 }
 
 .product-card .content-card>p {
     margin: 8px 0;
     font-size: 15px;
     font-weight: 400;
-    color: black;
+    color: #fff;
 }
 
 .product-card .content-card .price {
@@ -286,24 +326,25 @@ h1 {
 }
 
 .product-card .content-card>button {
-    color: #000000 !important;
+    color: #fff !important;
     font-size: 15px;
     padding: 10px 20px;
     border-radius: 10px;
-    border: 1px solid #CCD5AE;
-    background: #CCD5AE;
+    border: none;
+    background: linear-gradient(45deg, #7D5B8B, #A787B7);
     margin-top: 10px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-card .content-card>button:hover {
-    color: #000000 !important;
-    background: #E9EDC9;
+    background: linear-gradient(45deg, #59435E, #875699);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
 
 
-/* Ajustes en el CSS para la paginación */
+/* Ajustes para la paginación */
 
 .pagination {
     display: flex;
@@ -312,37 +353,39 @@ h1 {
     gap: 10px;
     margin-top: 30px;
     padding: 20px 0;
-    border-top: 1px solid #D4A373;
+    border-top: 1px solid #7D5B8B;
 }
 
 .pagination>a {
-    color: black;
+    color: #fff;
     width: 78px;
     text-align: center;
     font-size: 15px;
     font-weight: 400;
     text-decoration: none;
     padding: 5px 10px;
-    border: 1px solid #D4A373;
+    border: 1px solid #7D5B8B;
     border-radius: 5px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .pagination>a:hover {
-    background-color: #D4A373;
-    color: black;
+    background-color: #7D5B8B;
+    color: #fff;
 }
 
 .pagination>span {
-    color: black;
+    color: #fff;
     font-size: 15px;
     font-weight: 400;
 }
 
-/* PAGINA DEL CARRITO */
+/* ------------------------------------------------------------- */
+
+/* PAGINA DEL CARRITO Y EL MENU DESPLEGABLE */
 /* Estilo para el botón del carrito */
 .dropbtn {
-    color: black;
+    color: #fff;
     font-size: 17px;
     font-weight: 500;
     border: none;
@@ -351,11 +394,12 @@ h1 {
 
 /* Estilo para el contenido del menú desplegable */
 .dropdown-content {
-    right: 30px;
-    top: 40px;
+    right: 20px;
+    top: 42px;
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: rgba(125, 91, 139, 0.8);
+    /* Color con transparencia para dar efecto */
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
@@ -363,7 +407,7 @@ h1 {
 
 /* Estilo para los elementos del menú desplegable */
 .dropdown-content a {
-    color: black;
+    color: #fff;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -371,8 +415,9 @@ h1 {
 
 /* Cambia el estilo del menú desplegable cuando se pasa el mouse */
 .dropdown-content a:hover {
-    color: #000000;
-    background-color: #ccd5aeff;
+    color: #fff;
+    background-color: rgba(125, 91, 139, 1);
+    /* Color más sólido al pasar el mouse */
 }
 
 /* Muestra el menú desplegable cuando se pasa el mouse */
@@ -380,9 +425,13 @@ h1 {
     display: block;
 }
 
-/* Estilos para la tabla del cart */
+/* ------------------------------------------------------------ */
+
+/* Estilos para la tabla del carrito */
 .cart-container>h1 {
     margin: 50px 0 40px 0;
+    color: #fff;
+    /* Color del texto */
 }
 
 .cart-container .table-container {
@@ -403,21 +452,25 @@ h1 {
 
 .cart-container .table-container table tr {
     border-top: 1px solid #ccc;
-    background-color: #fff;
+    background-color: rgba(125, 91, 139, 0.8);
+    /* Color de fondo con transparencia */
 }
 
 .cart-container .table-container table th {
     padding: 12px 0 12px 12px;
     text-align: left;
-    background-color: #d4a373ff;
-    color: #000000;
+    background-color: #7D5B8B;
+    /* Color de fondo del encabezado */
+    color: #fff;
+    /* Color del texto del encabezado */
 }
 
 .cart-container .table-container table td {
     width: 180px;
     height: auto;
     padding: 40px 20px 0 12px;
-    color: #000000;
+    color: #fff;
+    /* Color del texto */
     font-size: 22px;
     font-weight: bold;
     text-align: start;
@@ -448,4 +501,102 @@ h1 {
 
 .cart-container .table-container .td-remove {
     text-align: center;
+}
+
+/* ESTILOS PARA LOGIN Y REGISTER */
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: url('../uploads/background-login.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.login-container {
+    position: relative;
+    width: 400px;
+    height: 450px;
+    background: transparent;
+    border: 2px solid rgb(159, 134, 192, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.login-container .form-value form h2 {
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+}
+
+.login-container .form-value form .input-box {
+    position: relative;
+    margin: 25px 0;
+    width: 310px;
+}
+
+.login-container .form-value form .input-box label {
+    position: absolute;
+    top: 15px;
+    left: 0px;
+    color: #fff;
+    font-size: 1em;
+    font-weight: 400;
+    pointer-events: none;
+    transition: .5s;
+}
+
+/* Aplicar estilos al input y al label cuando el input está enfocado o tiene contenido */
+.login-container .form-value form .input-box input:focus~label,
+.login-container .form-value form .input-box input.has-content~label {
+    top: -10px;
+}
+
+.login-container .form-value form .input-box input {
+    width: 100%;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #9F86C0;
+    outline: none;
+    font-size: 1em;
+    color: #fff;
+}
+
+.login-container .form-value form button {
+    width: 100%;
+    height: 40px;
+    margin: 25px 0 0 0;
+    border-radius: 40px;
+    background: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: #000;
+}
+
+.login-container .form-value form .login-register {
+    font-size: .9em;
+    font-weight: 300;
+    text-align: center;
+}
+
+.login-container .form-value form .login-register p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+.login-container .form-value form .login-register p a:hover {
+    text-decoration: underline;
 }

@@ -2,39 +2,84 @@
     <a href="http://localhost:8080/products"><img src="/uploads/icon-clock.png" alt="Preview Icon"></a>
     <ul>
         <li><a href="http://localhost:8080/products">Home</a></li>
-        <li><a href="http://localhost:8080/products">Sign in</a></li>
-        <li><a href="http://localhost:8080/carts/:cid">Cart</a></li>
+        <li id="authLink"></li>
+        <li class="dropdown">
+            <a href="#" class="dropbtn">Cart</a>
+            <div class="dropdown-content" id="cartDropdown">
+                <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
+            </div>
+        </li>
     </ul>
 </header>
-<div class="chat-container">
 
-    <img src="/uploads/2024-02-20T18-30-50.215Z-background.png" alt="Fondo chat">
-    <nav>
-        <h1>Chat</h1>
-        <img src="/uploads/2024-02-20T18-30-50.220Z-cam-recorder.png" alt="Icon camera">
-        <img src="/uploads/2024-02-20T18-30-50.215Z-phone-solid.png" alt="Icon phone">
-        <img src="/uploads/2024-02-20T18-30-50.221Z-more.png" alt="Icon more">
-    </nav>
-    <div class="messages">
-        {{#each messages}}
-        <ul>
-            <li>{{user}}</li>
-            <li class="li-mensaje">{{message}}</li>
-        </ul>
-        {{/each}}
-    </div>
-    <div class="form-container">
-        <form action="/chat" method="POST">
-            <label for="user">User:</label>
-            <input type="text" id="user" name="user" required>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-            <button type="submit">Send</button>
-
-        </form>
-    </div>
-    <div class="icon-chat">
-        <a href="http://localhost:8080/products"><img class="icon-clock-chat" src="/uploads/icon-clock.png" alt="Icon Chat"></a>
+<main>
+    <div class="background-container">
+        <img src="/uploads/background-body-2.jpg" alt="Fondo body">
     </div>
 
-</div>
+    <div class="chat-container">
+
+        <img src="/uploads/2024-02-20T18-30-50.215Z-background.png" alt="Fondo chat">
+        <nav>
+            <h1>Chat</h1>
+            <img src="/uploads/2024-02-20T18-30-50.220Z-cam-recorder.png" alt="Icon camera">
+            <img src="/uploads/2024-02-20T18-30-50.215Z-phone-solid.png" alt="Icon phone">
+            <img src="/uploads/2024-02-20T18-30-50.221Z-more.png" alt="Icon more">
+        </nav>
+        <div class="messages">
+            {{#each messages}}
+            <ul>
+                <li>{{user}}</li>
+                <li class="li-mensaje">{{message}}</li>
+            </ul>
+            {{/each}}
+        </div>
+        <div class="form-container">
+            <form action="/chat" method="POST">
+                <label for="user">User:</label>
+                <input type="text" id="user" name="user" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Send</button>
+
+            </form>
+        </div>
+        <div class="icon-chat">
+            <a href="http://localhost:8080/products"><img class="icon-clock-chat" src="/uploads/icon-clock.png"
+                    alt="Icon Chat"></a>
+        </div>
+
+    </div>
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function () {
+        const dropdown = document.querySelector('.dropdown');
+        const dropdownContent = document.getElementById('cartDropdown');
+
+        // Obtener todos los carritos
+        const carts = await fetch('http://localhost:8080/carts').then(response => response.json());
+
+        // Generar dinámicamente los elementos del menú desplegable
+        carts.forEach(cart => {
+            const link = document.createElement('a');
+            link.href = `http://localhost:8080/carts/${cart._id}`;
+            link.textContent = `Cart ${cart._id}`;
+            dropdownContent.appendChild(link);
+        });
+
+        // Mostrar u ocultar el menú desplegable al hacer clic en el elemento <li> del carrito
+        dropdown.addEventListener('click', function (event) {
+            // Evita que el evento de clic se propague al elemento <a> dentro del <li>
+            event.stopPropagation();
+            dropdownContent.classList.toggle('show');
+        });
+
+        // Ocultar el menú desplegable al hacer clic fuera de él
+        document.addEventListener('click', function (event) {
+            if (!dropdown.contains(event.target)) {
+                dropdownContent.classList.remove('show');
+            }
+        });
+    });
+</script>
