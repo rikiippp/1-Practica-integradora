@@ -34,10 +34,15 @@ router.post('/login', async (req, res) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
 
-        if (!user || user.password !== password) {
-            // Redirige al usuario a la página de login con un mensaje de error
+        if (!email || !password) {
             return res.redirect('/login?error=Incomplete values');
         }
+
+        if (!user) {
+            return res.redirect('/login?error=User not found');
+        }
+
+        // Verifica si la contraseña es correcta
         if (!isValidPassword(user, password)) {
             return res.redirect('/login?error=Incorrect password');
         }
@@ -63,7 +68,6 @@ router.post('/login', async (req, res) => {
         res.redirect('/login?error=Failed to login');
     }
 });
-
 
 // Ruta para obtener la cookie
 router.get('/getCookie', (req, res) => {

@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
         }
 
         // Crea y guarda el nuevo usuario
-        const newUser = new User({ name, email, password: createHash(password), role: isAdmin ? 'admin' : 'usuario' });
+        const newUser = new User({ name, email, password: createHash(password), role: isAdmin ? 'admin' : 'user' });
         await newUser.save();
 
         // Guarda el nombre del usuario en la sesión y redirige a la página de login
