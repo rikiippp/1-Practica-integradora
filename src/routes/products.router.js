@@ -36,12 +36,12 @@ router.get('/products', async (req, res) => {
         const totalProducts = await productsModel.countDocuments(queryParams);
         const totalPages = Math.ceil(totalProducts / limit);
 
-        // Asegurarse de que la página actual no exceda el número total de páginas
+        // Asegura de que la página actual no exceda el número total de páginas
         if (page > totalPages) {
             return res.status(404).send('Page not found');
         }
 
-        // Generar enlaces de paginación solo si hay páginas anteriores o siguientes disponibles
+        // Genera enlaces de paginación solo si hay páginas anteriores o siguientes disponibles
         const prevLink = page > 1 ? `/products?limit=${limit}&page=${parseInt(page) - 1}&query=${query || ''}` : null;
         const nextLink = page < totalPages ? `/products?limit=${limit}&page=${parseInt(page) + 1}&query=${query || ''}` : null;
 

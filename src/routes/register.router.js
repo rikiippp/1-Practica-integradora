@@ -1,5 +1,6 @@
 import Router from 'express';
 import User from '../dao/models/user.model.js';
+import { createHash } from '../utils.js';
 
 const router = Router();
 
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// Ruta unificada para el registro de usuarios
+// Ruta para el registro de usuarios
 router.post('/', async (req, res) => {
     try {
         const { name, email, password, isAdmin } = req.body;
@@ -19,19 +20,18 @@ router.post('/', async (req, res) => {
         // Verifica si el usuario ya existe
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.redirect(`/?error=El usuario ya existe`);
+            return res.redirect(`/?error=User already exists`);
         }
 
         // Crea y guarda el nuevo usuario
-        const newUser = new User({ name, email, password, role: isAdmin ? 'admin' : 'usuario' });
+        const newUser = new User({ name, email, password: createHash(password), role: isAdmin ? 'admin' : 'usuario' });
         await newUser.save();
 
         // Guarda el nombre del usuario en la sesión y redirige a la página de login
         req.session.name = newUser.name;
         res.redirect('/login');
     } catch (error) {
-        console.error(error);
-        res.redirect('/?error=Error al registrar el usuario');
+        res.redirect('/?error=Error registering user');
     }
 });
 

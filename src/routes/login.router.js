@@ -1,5 +1,6 @@
 import Router from 'express';
 import User from '../dao/models/user.model.js';
+import { isValidPassword } from '../utils.js';
 
 const router = Router();
 
@@ -28,15 +29,19 @@ router.get('/login', (req, res) => {
 });
 
 // Ruta para iniciar sesión
-router.post('/login/submit', async (req, res) => {
+router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
 
         if (!user || user.password !== password) {
             // Redirige al usuario a la página de login con un mensaje de error
-            return res.redirect('/login?error=Credenciales inválidas');
+            return res.redirect('/login?error=Incomplete values');
         }
+        if (!isValidPassword(user, password)) {
+            return res.redirect('/login?error=Incorrect password');
+        }
+
         // Establece la cookie al iniciar sesión
         res.cookie('user', { email: user.email, name: user.name, role: user.role }, { maxAge: 100000 });
 
@@ -55,7 +60,7 @@ router.post('/login/submit', async (req, res) => {
             res.redirect('/products'); // Redirige a la página de productos
         }
     } catch (error) {
-        res.redirect('/login?error=Error al iniciar sesión');
+        res.redirect('/login?error=Failed to login');
     }
 });
 
@@ -72,7 +77,7 @@ router.get('/getCookie', (req, res) => {
             res.send({ email, name, role });
         } else {
             // Si la cookie no existe, envía un mensaje de error
-            res.status(404).send({ error: "No hay cookie" });
+            res.status(404).send({ error: "There is no cookie" });
         }
     } catch (error) {
         console.log(error)
@@ -98,7 +103,7 @@ router.get('/logout', (req, res) => {
 // Ruta para el administrador
 router.get('/admin', checkRole('admin'), (req, res) => {
     const { role, name } = req.session;
-    res.send(`¡Bienvenido ${name} al panel de administracion, tu rol es ${role}!`);
+    res.send(`Welcome ${name} to the administration panel, your role is ${role}!`);
 });
 
 export default router;

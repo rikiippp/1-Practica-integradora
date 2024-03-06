@@ -118,11 +118,11 @@ router.put('/carts/:cid', async (req, res) => {
             return res.status(404).json({ message: 'Cart not found.' });
         }
 
-        // Actualizar cada producto individualmente
+        // Actualiza cada producto individualmente
         products.forEach((product) => {
             const productIndex = cart.products.findIndex(p => p.productId.toString() === product.productId.toString());
             if (productIndex !== -1) {
-                // Si el producto ya existe en el carrito, actualizar su cantidad
+                // Si el producto ya existe en el carrito, actualiza su cantidad
                 cart.products[productIndex].quantity = product.quantity;
             } else {
                 // Si el producto no existe en el carrito, añadirlo
@@ -139,7 +139,7 @@ router.put('/carts/:cid', async (req, res) => {
     }
 });
 
-// Actualizar la cantidad de un producto en el carrito
+// Actualiza la cantidad de un producto en el carrito
 router.put('/carts/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
@@ -153,19 +153,19 @@ router.put('/carts/:cid/products/:pid', async (req, res) => {
         if (productIndex === -1) {
             return res.status(404).json({ message: 'Product not found in cart.' });
         }
-        // Verificar si se proporcionó una cantidad
+        // Verifica si se proporcionó una cantidad
         if (quantity !== undefined) {
             const product = await productsModel.findById(pid); // Suponiendo que hay un modelo de productos llamado productModel
             if (!product) {
                 return res.status(404).json({ message: 'Product not found.' });
             }
 
-            // Verificar si la cantidad solicitada excede el stock disponible
+            // Verifica si la cantidad solicitada excede el stock disponible
             if (quantity > product.stock) {
                 return res.status(400).json({ message: 'Requested quantity exceeds available stock.' });
             }
 
-            // Actualizar la cantidad en el carrito solo si es menor o igual al stock disponible
+            // Actualiza la cantidad en el carrito solo si es menor o igual al stock disponible
             cart.products[productIndex].quantity = quantity;
             await cart.save();
             res.send({ result: 'Product quantity updated successfully', payload: cart });
@@ -177,7 +177,7 @@ router.put('/carts/:cid/products/:pid', async (req, res) => {
     }
 });
 
-// Eliminar todos los productos del carrito
+// Elimina todos los productos del carrito
 router.delete('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;

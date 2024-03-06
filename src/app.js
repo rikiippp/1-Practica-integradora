@@ -5,7 +5,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import handlebars from 'express-handlebars';
 import path from 'path';
-import __dirname from './utils.js';
+import { __dirname } from './utils.js';
 
 //LOGIC
 import productsRouter from './routes/products.router.js';
