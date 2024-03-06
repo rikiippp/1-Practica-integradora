@@ -31,6 +31,7 @@ El proyecto utiliza las siguientes dependencias:
 - Multer: (^1.4.5-lts.1)
 - Connect-mongo: (^5.1.0)
 - Cookie-parser: (^1.4.6)
+- Bcrypt: (^5.1.1)
 
 ## Uso
 
