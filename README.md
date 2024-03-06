@@ -55,11 +55,11 @@ node app.js
 
 ### Endpoints
 
-### Registro de usuario (Vista disponible):
+#### Registro de usuario (Vista disponible):
 - URL: `http://localhost:8080/`
 - Descripción: Esta ruta carga la página de registro cuando se accede directamente a la aplicación.
 
-### Inicio de sesión (Vista disponible):
+#### Inicio de sesión (Vista disponible):
 - URL: ``http://localhost:8080/login``
 - Descripción: Página de inicio de sesión.
 
