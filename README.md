@@ -4,7 +4,7 @@ Este es un proyecto e-commerce desarrollado por **Ricardo Piñero**. El proyecto
 
 ## Descripción
 
-El proyecto permite cargar, agregar, eliminar y editar productos, los cuales pueden ser agregados a carritos de compra. Además, cuenta con un sistema de chat donde los usuarios pueden enviar mensajes y verlos en la página.
+El proyecto permite registrarte y loguearte guardando tu cookie, ademas de cargar, agregar, eliminar y editar productos, los cuales pueden ser agregados a carritos de compra. Además, cuenta con un sistema de chat donde los usuarios pueden enviar mensajes y verlos en la página.
 
 ## Vista Previa
 ### Login y Registro
