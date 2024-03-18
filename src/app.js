@@ -6,6 +6,7 @@ import MongoStore from 'connect-mongo';
 import handlebars from 'express-handlebars';
 import path from 'path';
 import { __dirname } from './utils.js';
+import passport from 'passport';
 
 //LOGIC
 import productsRouter from './routes/products.router.js';
@@ -14,6 +15,7 @@ import chatRouter from './routes/chat.router.js';
 import uploadRouter from './routes/upload.router.js';
 import registerRouter from './routes/register.router.js';
 import loginRouter from './routes/login.router.js';
+import initializePassport from './dao/config/localAuth.config.js';
 
 const app = express();
 const PORT = 8080;
@@ -31,6 +33,11 @@ app.use(session({
     store: MongoStore.create({ mongoUrl: 'mongodb+srv://rikiippp:deadboy212322@cluster0.cuvxaea.mongodb.net/ecommerce?retryWrites=true&w=majority' }),
     cookie: { secure: false, maxAge: 100000 } // 1 minuto
 }));
+
+//PASSPORT
+initializePassport()
+app.use(passport.initialize());
+app.use(passport.session());
 
 //COOKIE
 app.use(cookieParser());

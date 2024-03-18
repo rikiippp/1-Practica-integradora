@@ -1,6 +1,8 @@
 import Router from 'express';
 import User from '../dao/models/user.model.js';
-import { isValidPassword } from '../utils.js';
+import { createHash, isValidPassword } from '../utils.js';
+import passport from 'passport';
+
 
 const router = Router();
 
@@ -29,45 +31,25 @@ router.get('/login', (req, res) => {
 });
 
 // Ruta para iniciar sesión
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
+router.post('/login', passport.authenticate('login', {
+    successRedirect: '/products',
+    failureRedirect: '/login?error=Login failed'
+}), async (req, res) => { 
+    req.session.name = req.user.first_name; 
+    req.session.role = req.user.role;
 
-        if (!email || !password) {
-            return res.redirect('/login?error=Incomplete values');
-        }
-
-        if (!user) {
-            return res.redirect('/login?error=User not found');
-        }
-
-        // Verifica si la contraseña es correcta
-        if (!isValidPassword(user, password)) {
-            return res.redirect('/login?error=Incorrect password');
-        }
-
-        // Establece la cookie al iniciar sesión
-        res.cookie('user', { email: user.email, name: user.name, role: user.role }, { maxAge: 100000 });
-
-        // Establece la información del usuario en la sesión
-        req.session.name = user.name;
-        req.session.role = user.role;
-
-        // Verifica si el usuario es administrador
-        if (email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
-            req.session.role = 'admin';
-            req.session.name = user.name;
-            res.redirect('/admin'); // Redirige al panel de administración
-        } else {
-            req.session.role = 'user';
-            req.session.name = user.name;
-            res.redirect('/products'); // Redirige a la página de productos
-        }
-    } catch (error) {
-        res.redirect('/login?error=Failed to login');
-    }
 });
+
+// Rutas de autenticación
+router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => { });
+
+// Ruta del callback
+router.get('/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/login' }),
+    (req, res) => {
+        // Redireccionar a la página principal después de iniciar sesión con éxito
+        res.redirect('/products');
+    });
 
 // Ruta para obtener la cookie
 router.get('/getCookie', (req, res) => {
@@ -78,7 +60,7 @@ router.get('/getCookie', (req, res) => {
         if (userCookie) {
             // Si la cookie existe, envia los datos como respuesta
             const { email, name, role } = userCookie;
-            res.send({ email, name, role });
+            res.send({ email, first_name, role });
         } else {
             // Si la cookie no existe, envía un mensaje de error
             res.status(404).send({ error: "There is no cookie" });
@@ -106,8 +88,35 @@ router.get('/logout', (req, res) => {
 
 // Ruta para el administrador
 router.get('/admin', checkRole('admin'), (req, res) => {
-    const { role, name } = req.session;
-    res.send(`Welcome ${name} to the administration panel, your role is ${role}!`);
+    const { role, first_name } = req.session;
+    res.send(`Welcome ${first_name} to the administration panel, your role is ${role}!`);
+});
+
+router.get('/forgotPassword', (req, res) => {
+    const error = req.query.error;
+    res.render('fgPassword', { titlePage: 'Reset Password', error });
+});
+
+// Ruta para resetear contreseña
+router.post('/forgotPassword', async (req, res) => {
+    try {
+        const { email, newPassword } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.redirect('/forgotPassword?error=User not found');
+        }
+
+        // Hash the new password
+        const hashedPassword = createHash(newPassword);
+
+        user.password = hashedPassword;
+        await user.save();
+
+        res.redirect('/login?success=Password reset successful');
+    } catch (error) {
+        res.redirect('/forgotPassword?error=Failed to reset password');
+    }
 });
 
 export default router;

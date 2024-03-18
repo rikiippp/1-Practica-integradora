@@ -585,6 +585,10 @@ section {
     color: #000;
 }
 
+.login-container .form-value form button:hover {
+    background: #e6e4e4;
+}
+
 .login-container .form-value form .login-register {
     font-size: .9em;
     font-weight: 300;
@@ -601,6 +605,59 @@ section {
     text-decoration: underline;
 }
 
+.login-container .form-value .forgot-password {
+    text-align: center;
+}
+
+.login-container .form-value .forgot-password a {
+    font-size: .9rem;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+}
+
+.login-container .form-value .forgot-password a:hover {
+    text-decoration: underline;
+}
+
+.login-container .form-value .login-github {
+    width: 100%;
+    height: 50px;
+    /* margin: 20px 0 0 0; */
+    border-radius: 10px;
+    background: #fff;
+    border: none;
+    outline: none;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.login-container .form-value .login-github:hover {
+    background: #e6e4e4;
+}
+
+.login-container .form-value .login-github img {
+    width: 35px;
+    height: 35px;
+    margin-left: 20px;
+}
+
+.login-container .form-value .login-github a {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: #000;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-left: -35px;
+    margin-top: 30px;
+}
+
 /* ESTILOS PARA EL ERROR EN EL LOGIN */
 .error-message {
     color: #fff;
@@ -612,4 +669,122 @@ section {
     font-size: 14px;
     font-weight: 500;
     width: auto;
+}
+
+/* ESTILOS PARA EL RESET PASSWORD */
+
+.forgot-password-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: url('../uploads/background-login.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.forgot-password-container .form-value {
+    position: relative;
+    width: 400px;
+    height: 450px;
+    background: transparent;
+    border: 2px solid rgb(159, 134, 192, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.forgot-password-container .form-value form {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.forgot-password-container .form-value form h2 {
+    font-size: 1.9em;
+    color: #fff;
+    text-align: center;
+}
+
+.forgot-password-container .form-value form .input-box {
+    position: relative;
+    margin: 20px 0;
+    width: 310px;
+}
+
+.forgot-password-container .form-value form .input-box label {
+    position: absolute;
+    top: 15px;
+    left: 0px;
+    color: #fff;
+    font-size: 1em;
+    font-weight: 400;
+    pointer-events: none;
+    transition: .5s;
+}
+
+/* Aplicar estilos al input y al label cuando el input está enfocado o tiene contenido */
+.forgot-password-container .form-value form .input-box input:focus~label,
+.forgot-password-container .form-value form .input-box input.has-content~label {
+    top: -10px;
+}
+
+.forgot-password-container .form-value form .input-box input {
+    width: 100%;
+    height: 40px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #9F86C0;
+    outline: none;
+    font-size: 1em;
+    color: #fff;
+}
+
+.forgot-password-container .form-value form button {
+    width: 100%;
+    height: 40px;
+    margin: 20px 0 0 0;
+    border-radius: 40px;
+    background: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    color: #000;
+}
+
+.forgot-password-container .form-value form .login-register {
+    font-size: .9em;
+    font-weight: 300;
+    text-align: center;
+}
+
+.forgot-password-container .form-value form .login-register p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+.forgot-password-container .form-value form .login-register p a:hover {
+    text-decoration: underline;
+}
+
+/* ESTILOS PARA EL ERROR EN EL RESET DE CONTRASEÑA */
+.error-message {
+    color: #fff;
+    background-color: #c0392b;
+    border-color: #c0392b;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    width: auto;
+    text-align: center;
 }

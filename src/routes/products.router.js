@@ -6,16 +6,6 @@ const productManager = new ProductManager()
 
 const router = Router();
 
-// Ruta para obtener todos los productos en formato JSON
-// router.get('/', async (req, res) => {
-//     try {
-//         const products = await productsModel.find();
-//         res.json(products);
-//     } catch (error) {
-//         res.status(500).json({ error: 'Error fetching products' });
-//     }
-// });
-
 // Obtengo todos los productos
 router.get('/products', async (req, res) => {
     try {

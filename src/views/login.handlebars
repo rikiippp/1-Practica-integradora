@@ -10,6 +10,10 @@
                         {{error}}
                     </div>
                     {{/if}}
+                    <div class="login-github">
+                        <img src="/uploads/github.png" alt="Logo Github">
+                        <a href="/auth/github">Login with GitHub</a>
+                        </div>
                     <div class="input-box">
                         <input type="email" id="email" name="email" required>
                         <label for="email">Email</label>
@@ -20,7 +24,10 @@
                     </div>
                     <button type="submit">Sign In</button>
                     <div class="login-register">
-                        <p>I don't have an account <a href="http://localhost:8080/">Sign Up</a></p>
+                        <p>¿Don't have an account? <a href="http://localhost:8080/">Sign Up</a></p>
+                    </div>
+                    <div class="forgot-password">
+                        <a href="http://localhost:8080/forgotPassword">¿Have you forgotten the password?</a>
                     </div>
                 </form>
             </div>
@@ -43,4 +50,5 @@
             });
         });
     });
+
 </script>
