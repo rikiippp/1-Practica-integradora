@@ -623,7 +623,6 @@ section {
 .login-container .form-value .login-github {
     width: 100%;
     height: 50px;
-    /* margin: 20px 0 0 0; */
     border-radius: 10px;
     background: #fff;
     border: none;
@@ -633,6 +632,7 @@ section {
     align-items: center;
     flex-direction: row;
     justify-content: center;
+    position: relative;
 }
 
 .login-container .form-value .login-github:hover {
@@ -642,7 +642,9 @@ section {
 .login-container .form-value .login-github img {
     width: 35px;
     height: 35px;
-    margin-left: 20px;
+    margin-left: -150px;
+    z-index: 0;
+    position: absolute;
 }
 
 .login-container .form-value .login-github a {
@@ -651,11 +653,13 @@ section {
     font-size: 1em;
     font-weight: 600;
     color: #000;
+    text-align: center;
     width: 100%;
     height: 100%;
+    line-height: 50px;
     text-align: center;
-    margin-left: -35px;
-    margin-top: 30px;
+    z-index: 1;
+    margin-right: -35px;
 }
 
 /* ESTILOS PARA EL ERROR EN EL LOGIN */
