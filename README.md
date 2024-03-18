@@ -9,7 +9,7 @@ El proyecto permite registrarte y loguearte guardando tu cookie, ademas de carga
 ## Vista Previa
 ### Login y Registro
 ![Register](image.png)
-![Login](image-1.png)
+![Login](image-5.png)
 
 ### Home
 ![Home](image-2.png)
@@ -32,6 +32,9 @@ El proyecto utiliza las siguientes dependencias:
 - Connect-mongo: (^5.1.0)
 - Cookie-parser: (^1.4.6)
 - Bcrypt: (^5.1.1)
+- Passpor: (^0.7.0),
+- Passport-github: (^0.1.12)
+- Passport-local: (^1.0.0)
 
 ## Uso
 

@@ -10,7 +10,6 @@ const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
 
-
     passport.use('register', new LocalStrategy(
         { passReqToCallback: true, usernameField: "email" }, async (req, username, password, done) => {
             const { first_name, email } = req.body
@@ -53,7 +52,7 @@ const initializePassport = () => {
         callbackURL: 'http://localhost:8080/auth/github/callback'
     }, async function (accessToken, refreshToken, profile, done) {
         try {
-            // Busca al usuario en la base de datos por su ID de GitHub
+            // Busca al usuario en la base de datos por su email
             let user = await User.findOne({ email: profile._json.email });
 
             if (!user) {

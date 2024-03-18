@@ -35,8 +35,6 @@ router.post('/login', passport.authenticate('login', {
     successRedirect: '/products',
     failureRedirect: '/login?error=Login failed'
 }), async (req, res) => { 
-    req.session.name = req.user.first_name; 
-    req.session.role = req.user.role;
 
 });
 
@@ -47,7 +45,7 @@ router.get('/auth/github', passport.authenticate('github', { scope: ['user:email
 router.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
     (req, res) => {
-        // Redireccionar a la página principal después de iniciar sesión con éxito
+        // Redirecciona a la página principal después de iniciar sesión con éxito
         res.redirect('/products');
     });
 
