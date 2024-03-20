@@ -39,10 +39,11 @@ router.post('/login', passport.authenticate('login', {
     console.log('session', req.session.user)
 
     // Establezco la cookie 
-    res.cookie('user', { email: req.user.email, first_name: req.user.first_name, role: req.user.role }, { maxAge: 100000 });
+    res.cookie('user', { email: req.user.email, first_name: req.user.first_name, role: req.user.role });
 
     res.redirect('/products'); // Redirecciona al main si esta todo correcto
 });
+
 
 // Rutas de autenticación
 router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => { });
@@ -50,12 +51,23 @@ router.get('/auth/github', passport.authenticate('github', { scope: ['user:email
 // Ruta del callback
 router.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
-    (req, res) => {
-        // console.log('Authenticated with GitHub'); 
+    async (req, res) => {
+        // Extraigo la información necesaria del objeto req.user
+        const { displayName: username, first_name, role } = req.user;
 
-        // Redirecciona a la página principal
+        // Ahora que tengo los datos podemos establecer la sesión
+        req.session.user = {
+            username,
+            first_name,
+            role
+        };
+        // Establecemos la cookie con la información del usuario
+        res.cookie('user', { email: req.user.email, first_name: first_name, role: role });
+
+        // Redireccionamos al usuario a la página de productos
         res.redirect('/products');
     });
+
 
 // Ruta para obtener la cookie
 router.get('/getCookie', (req, res) => {
@@ -65,8 +77,8 @@ router.get('/getCookie', (req, res) => {
 
         if (userCookie) {
             // Si la cookie existe, envía los datos como respuesta
-            const { email, first_name, role } = userCookie; 
-            res.send({ email, first_name, role }); 
+            const { email, first_name, role } = userCookie;
+            res.send({ email, first_name, role });
         } else {
             // Si la cookie no existe, envía un mensaje de error
             res.status(404).send({ error: "There is no cookie" });

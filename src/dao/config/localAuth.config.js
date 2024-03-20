@@ -39,7 +39,9 @@ const initializePassport = () => {
             if (!user) {
                 return done(null, false, { message: 'User does not exist' });
             }
-            if (!isValidPassword(user, password)) return done(null, false);
+            if (!isValidPassword(user, password)) {
+                return done(null, false, { message: 'Incorrect email or password' });
+            }
             return done(null, user);
         } catch (error) {
             return done(error);
@@ -53,7 +55,7 @@ const initializePassport = () => {
     }, async function (accessToken, refreshToken, profile, done) {
         try {
             // console.log('GitHub profile:', profile); 
-            
+
             // Busca al usuario en la base de datos por su email
             let user = await User.findOne({ email: profile._json.email });
 

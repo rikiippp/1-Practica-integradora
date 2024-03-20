@@ -8,13 +8,12 @@ const router = Router();
 
 // Middleware para verificar si el usuario está autenticado
 const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
+    if (req.isAuthenticated()) {
         next();
     } else {
         res.redirect('/login');
     }
 };
-
 
 // Obtengo todos los productos
 router.get('/products', isAuthenticated, async (req, res) => {
@@ -65,7 +64,7 @@ router.get('/products', isAuthenticated, async (req, res) => {
             hasPrevPage: page > 1,
             hasNextPage: page < totalPages,
             session: req.session,
-            isLoggedIn
+            isLoggedIn: req.isAuthenticated()
         });
     } catch (error) {
         res.status(500).send('Error fetching products');
