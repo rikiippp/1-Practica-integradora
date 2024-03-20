@@ -6,9 +6,22 @@ const productManager = new ProductManager()
 
 const router = Router();
 
+// Middleware para verificar si el usuario está autenticado
+const isAuthenticated = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
+
 // Obtengo todos los productos
-router.get('/products', async (req, res) => {
+router.get('/products', isAuthenticated, async (req, res) => {
     try {
+        // console.log('User session:', req.session.user);
+        // console.log('Is authenticated:', req.isAuthenticated());
+
         const { limit = 9, page = 1, sort, query } = req.query;
         const skip = (page - 1) * limit;
         let queryParams = {};
@@ -38,6 +51,9 @@ router.get('/products', async (req, res) => {
         // Incrementa el contador de visitas cada vez que se accede a la página de inicio
         req.session.views = req.session.views ? ++req.session.views : 1;
 
+        // Paso la informacion del user si esta autenticado
+        const isLoggedIn = req.isAuthenticated();
+
         res.render('products', {
             favIcon: '/uploads/icon-clock.png',
             titlePage: 'Home | Products',
@@ -48,12 +64,8 @@ router.get('/products', async (req, res) => {
             page,
             hasPrevPage: page > 1,
             hasNextPage: page < totalPages,
-            session: {
-                name: req.session.name,
-                views: req.session.views,
-                role: req.session.role || 'user'
-            },
-            isLoggedIn: req.session.name ? true : false
+            session: req.session,
+            isLoggedIn
         });
     } catch (error) {
         res.status(500).send('Error fetching products');

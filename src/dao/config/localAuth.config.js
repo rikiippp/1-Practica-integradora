@@ -52,6 +52,8 @@ const initializePassport = () => {
         callbackURL: 'http://localhost:8080/auth/github/callback'
     }, async function (accessToken, refreshToken, profile, done) {
         try {
+            // console.log('GitHub profile:', profile); 
+            
             // Busca al usuario en la base de datos por su email
             let user = await User.findOne({ email: profile._json.email });
 
@@ -66,6 +68,7 @@ const initializePassport = () => {
                 });
                 await user.save();
             }
+            // console.log('User authenticated with GitHub:', user); 
 
             return done(null, user);
         } catch (error) {

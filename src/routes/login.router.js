@@ -1,6 +1,6 @@
 import Router from 'express';
 import User from '../dao/models/user.model.js';
-import { createHash, isValidPassword } from '../utils.js';
+import { createHash } from '../utils.js';
 import passport from 'passport';
 
 
@@ -32,10 +32,16 @@ router.get('/login', (req, res) => {
 
 // Ruta para iniciar sesión
 router.post('/login', passport.authenticate('login', {
-    successRedirect: '/products',
     failureRedirect: '/login?error=Login failed'
-}), async (req, res) => { 
+}), async (req, res) => {
+    // Establezco la session
+    req.session.user = req.user;
+    console.log('session', req.session.user)
 
+    // Establezco la cookie 
+    res.cookie('user', { email: req.user.email, first_name: req.user.first_name, role: req.user.role }, { maxAge: 100000 });
+
+    res.redirect('/products'); // Redirecciona al main si esta todo correcto
 });
 
 // Rutas de autenticación
@@ -45,7 +51,9 @@ router.get('/auth/github', passport.authenticate('github', { scope: ['user:email
 router.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
     (req, res) => {
-        // Redirecciona a la página principal después de iniciar sesión con éxito
+        // console.log('Authenticated with GitHub'); 
+
+        // Redirecciona a la página principal
         res.redirect('/products');
     });
 
@@ -56,9 +64,9 @@ router.get('/getCookie', (req, res) => {
         const userCookie = req.cookies.user;
 
         if (userCookie) {
-            // Si la cookie existe, envia los datos como respuesta
-            const { email, name, role } = userCookie;
-            res.send({ email, first_name, role });
+            // Si la cookie existe, envía los datos como respuesta
+            const { email, first_name, role } = userCookie; 
+            res.send({ email, first_name, role }); 
         } else {
             // Si la cookie no existe, envía un mensaje de error
             res.status(404).send({ error: "There is no cookie" });
@@ -68,6 +76,7 @@ router.get('/getCookie', (req, res) => {
         res.status(500).json({ error: 'Error fetching cookie' });
     }
 });
+
 
 // Ruta para logout
 router.get('/logout', (req, res) => {

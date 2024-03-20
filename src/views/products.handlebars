@@ -19,12 +19,12 @@
     <div class="background-container">
         <img src="/uploads/background-body-2.jpg" alt="Fondo body">
     </div>
-    {{!-- {{#if session.name}}
-    <h1>¡ Welcome {{session.name}}, your role is {{session.role}} !</h1>
+    {{#if session.user}}
+    <h1>¡ Welcome {{session.user.first_name}}, your role is {{session.user.role}} !</h1>
     {{else}}
     <h1>¡ Welcome visitor !</h1>
     {{/if}}
-    <h2>You have visited this page {{session.views}} times</h2> --}}
+    <h2>You have visited this page {{session.views}} times</h2>
     <h1>Our e-commerce is in the works</h1>
     <div class="products-container">
         <h1>All products</h1>
@@ -89,10 +89,10 @@
         });
     });
     document.addEventListener('DOMContentLoaded', function () {
-        const isLoggedIn = {{ isLoggedIn }};
+        const isLoggedIn = {{ isLoggedIn }}; // Asegúrate de que esta línea esté correctamente evaluada
     const authLink = document.getElementById('authLink');
     if (isLoggedIn) {
-        authLink.innerHTML = '<a href="/logout">Sign out</a>';
+        authLink.innerHTML = '<a href="/logout">Log out</a>';
     } else {
         authLink.innerHTML = '<a href="/login">Sign in</a>';
     }
