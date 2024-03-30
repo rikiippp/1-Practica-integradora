@@ -1,9 +1,25 @@
 import Router from 'express';
-import User from '../dao/models/user.model.js';
-import { createHash } from '../utils.js';
 import passport from 'passport';
 
 const router = Router();
+
+// Middleware para manejar errores de Passport
+const handlePassportError = (req, res, next) => {
+    passport.authenticate('register', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.redirect('/?error=' + info.message);
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            return res.redirect('/login');
+        });
+    })(req, res, next);
+};
 
 router.get('/', (req, res) => {
     const error = req.query.error;
@@ -14,11 +30,6 @@ router.get('/', (req, res) => {
 });
 
 // Ruta para el registro de usuarios
-router.post('/', passport.authenticate('register', {
-    successRedirect: '/login',
-    failureRedirect: '/?error=Registration failed'
-}), async (req, res) => {
-
-});
+router.post('/', handlePassportError);
 
 export default router;

@@ -17,6 +17,28 @@ const checkRole = (role) => {
     };
 };
 
+// Middleware para manejar errores de Passport en el login
+const handleLoginError = (req, res, next) => {
+    passport.authenticate('login', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res.redirect(`/login?error=${info.message}`);
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return next(err);
+            }
+            // Establezco la session
+            req.session.user = user;
+            // Establezco la cookie 
+            res.cookie('user', { email: user.email, first_name: user.first_name, role: user.role });
+            res.redirect('/products'); // Redirecciona al main si esta todo correcto
+        });
+    })(req, res, next);
+};
+
 // Ruta para el login
 router.get('/login', (req, res) => {
     try {
@@ -31,19 +53,7 @@ router.get('/login', (req, res) => {
 });
 
 // Ruta para iniciar sesión
-router.post('/login', passport.authenticate('login', {
-    failureRedirect: '/login?error=Login failed'
-}), async (req, res) => {
-    // Establezco la session
-    req.session.user = req.user;
-    console.log('session', req.session.user)
-
-    // Establezco la cookie 
-    res.cookie('user', { email: req.user.email, first_name: req.user.first_name, role: req.user.role });
-
-    res.redirect('/products'); // Redirecciona al main si esta todo correcto
-});
-
+router.post('/login', handleLoginError);
 
 // Rutas de autenticación
 router.get('/auth/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => { });
@@ -53,14 +63,12 @@ router.get('/auth/github/callback',
     passport.authenticate('github', { failureRedirect: '/login' }),
     async (req, res) => {
         // Extraigo la información necesaria del objeto req.user
-        const { displayName: username, first_name, role } = req.user;
+        const { displayName: username, first_name, email, role } = req.user;
 
-        // Ahora que tengo los datos podemos establecer la sesión
-        req.session.user = {
-            username,
-            first_name,
-            role
-        };
+        // Guarda el objeto de usuario completo en la sesión, incluyendo el ID
+        req.session.user = req.user;
+        
+        console.log('session', req.session.user)
         // Establecemos la cookie con la información del usuario
         res.cookie('user', { email: req.user.email, first_name: first_name, role: role });
 
@@ -135,6 +143,32 @@ router.post('/forgotPassword', async (req, res) => {
         res.redirect('/login?success=Password reset successful');
     } catch (error) {
         res.redirect('/forgotPassword?error=Failed to reset password');
+    }
+});
+
+// Ruta para acceder a la info del user
+router.get('/sessions/current', (req, res) => {
+    if (req.isAuthenticated()) {
+        User.findById(req.session.user._id)
+            .then(user => {
+                if (!user) {
+                    return res.status(404).json({ error: 'User not found' });
+                }
+                // Aquí puedes especificar explícitamente qué campos incluir en la respuesta
+                res.json({
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    age: user.age,
+                    role: user.role
+                });
+            })
+            .catch(error => {
+                console.log(error)
+                res.status(500).json({ error: 'An error occurred while fetching the user' });
+            });
+    } else {
+        res.status(401).json({ error: 'Not authenticated' });
     }
 });
 
