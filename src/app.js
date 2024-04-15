@@ -7,6 +7,7 @@ import handlebars from 'express-handlebars';
 import path from 'path';
 import { __dirname } from './utils.js';
 import passport from 'passport';
+import * as dotenv from 'dotenv';
 
 //LOGIC
 import productsRouter from './routes/products.router.js';
@@ -15,10 +16,11 @@ import chatRouter from './routes/chat.router.js';
 import uploadRouter from './routes/upload.router.js';
 import registerRouter from './routes/register.router.js';
 import loginRouter from './routes/login.router.js';
-import initializePassport from './dao/config/localAuth.config.js';
+import initializePassport from './config/localAuth.config.js';
 
+dotenv.config();
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT;
 
 //MIDDLEWARES
 app.use(express.json())
@@ -31,7 +33,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-        mongoUrl: 'mongodb+srv://rikiippp:deadboy212322@cluster0.cuvxaea.mongodb.net/ecommerce?retryWrites=true&w=majority'
+        mongoUrl: `${process.env.MONGODB_URI}`
     }),
     cookie: { httpOnly: false, secure: false, maxAge: 120000 } // 2 minuto
 }));
@@ -64,7 +66,7 @@ app.listen(PORT, () => {
 });
 
 //CONNECTION TO MONGODB ATLAS
-mongoose.connect('mongodb+srv://rikiippp:deadboy212322@cluster0.cuvxaea.mongodb.net/ecommerce?retryWrites=true&w=majority')
+mongoose.connect(`${process.env.MONGODB_URI}`)
     .then(() => {
         console.log('Connection successful to MongoDb Atlas');
     })
